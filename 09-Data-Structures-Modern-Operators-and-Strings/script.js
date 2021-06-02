@@ -57,9 +57,33 @@ const restaurant = {
     }
 };
 
+//13. looping object
+/*
+// Property name
+const properties = Object.keys(openingHours);
+console.log(properties);
+
+let openStr = `We are open  on ${properties.length} days: `
+for (const day of properties) {
+    openStr += `${day}, `;
+}
+console.log(openStr);
+
+// Property values
+const values = Object.values(openingHours);
+console.log(values);
+
+// Entire Object
+const entries = Object.entries(openingHours);
+for (const [key, {open, close}] of entries) {
+    console.log(`On ${key} we open at ${open} and close at ${close} `);
+}
+
+ */
+
 //////////////////////////////////////////////////
 // 12. Optional chaining
-
+/*
 if (restaurant.openingHours && restaurant.openingHours.mon)
     console.log(restaurant.openingHours.mon.open);
 //With optional chaining
@@ -84,6 +108,8 @@ console.log(users[0]?.name ?? 'User array empty');
 // Traditional way
 if (users.length > 0) console.log(users[0].name);
 else console.log('User array empty');
+
+ */
 
 //////////////////////////////////////////////////
 // Rest pattern
@@ -413,8 +439,109 @@ for (const [i, element] of menu.entries()){
 }
 
  */
+//Coding Challenge #2
+const game = {
+    team1: 'Bayern Munich',
+    team2: 'Borrussia Dortmund',
+    players: [
+        [
+            'Neuer',
+            'Pavard',
+            'Martinez',
+            'Alaba',
+            'Davies',
+            'Kimmich',
+            'Goretzka',
+            'Coman',
+            'Muller',
+            'Gnarby',
+            'Lewandowski',
+        ],
+        [
+            'Burki',
+            'Schulz',
+            'Hummels',
+            'Akanji',
+            'Hakimi',
+            'Weigl',
+            'Witsel',
+            'Hazard',
+            'Brandt',
+            'Sancho',
+            'Gotze',
+        ],
+    ],
+    score: '4:0',
+    scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+    date: 'Nov 9th, 2037',
+    odds: {
+        team1: 1.33,
+        x: 3.25,
+        team2: 6.5,
+    },
+};
+
+//1.
+const scoredPlayer = game.scored;
+
+for (const [goal, player ] of scoredPlayer.entries()) {
+    console.log(`Goal ${goal +1} : ${player}`)
+}
+
+//2.
+const oddsValues = Object.values(game.odds);
+const oddsLength = oddsValues.length;
+let sum = 0;
+for (const odd of oddsValues) sum += odd
+console.log(`The average odd is ${sum / oddsLength}`);
+
+//3.
+const { team1: bayern, team2: dortmund} = game;
+console.log(`Odd of victory ${bayern}: ${oddsValues[0]}`);
+console.log(`Odd of draw: ${oddsValues[1]}`);
+console.log(`Odd of victory ${dortmund}: ${oddsValues[2]}`);
+
+//4.
+const scores = {
+
+}
+
+// for of loop
+/*
+for (const player of scoredPlayer) {
+    console.log(player)
+    Object.defineProperty(scores, `${scoredPlayer[0]}`, {value : 1})
+}
+Object.defineProperty(scores, `${scoredPlayer[0]}`, {value : 1})
+console.log(scores);
+ */
+//for i loop
+/*
+for (let i = 0; i < scoredPlayer.length; i++) {
+    let numberOfGoals = 0
+    for (let j = 0; j < scoredPlayer.length; j++) {
+        if (scoredPlayer[i] === scoredPlayer[j]) {
+            numberOfGoals++;
+            Object.defineProperty(scores, `${scoredPlayer[i]}`, {value : numberOfGoals})
 
 
+
+        }
+    }
+}*/
+for (let i = 0; i < scoredPlayer.length; i++) {
+    let numberOfGoals = 0
+    for (let j = 0; j < scoredPlayer.length; j++) {
+        if (scoredPlayer[i] === scoredPlayer[j]) {
+            numberOfGoals++;
+            scores[scoredPlayer[i]] = numberOfGoals
+        }
+    }
+}
+
+
+
+console.log(scores);
 
 
 
