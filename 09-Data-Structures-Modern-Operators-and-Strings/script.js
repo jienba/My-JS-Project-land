@@ -594,6 +594,7 @@ console.log(scores);
  */
 
 //Coding Challenge #3
+/*
 const gameEvents = new Map([
     [17, '⚽ GOAL'],
     [36, '🔁 Substitution'],
@@ -629,3 +630,96 @@ for (const [time,event] of gameEvents) {
     let half = time <= 45 ? 'First' : 'Second';
     console.log(`[${half} HALF] ${time}: ${event}`);
 }
+
+ */
+//////////////////////////////////////////////////////////
+// 20. String Part-1
+/*
+const airline = 'TAP Air Senegal';
+const plane = 'A320';
+console.log(plane[0]);
+console.log(plane[1]);
+console.log(plane[2]);
+console.log('B727'.length);
+console.log(airline.length);
+console.log(plane.length);
+console.log(airline.indexOf('e'));
+console.log(airline.lastIndexOf('e'));
+console.log(airline.lastIndexOf('e'));
+console.log(airline.indexOf('Senegal'));
+
+console.log(airline.slice(4));
+console.log(airline.slice(4, 7));
+//First index
+console.log(airline.slice(0, airline.indexOf(' ')));
+
+//Last index
+console.log(airline.slice(airline.lastIndexOf(' ') + 1));
+
+console.log(airline.slice(-1));
+
+const checkMiddleSeat = function(seat) {
+    // B and E are middle seats
+    const s = seat.slice(-1);
+    if (s === 'B' || s === 'E') console.log('You got the middle seat.');
+    else console.log('You are Lucky.');
+}
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+
+ */
+
+/////////////////////////////////////////////////////////
+// String Part 2
+// Fix capitalization in name
+const passenger = 'aDaMa';
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect = passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect)
+
+// Normalizing email
+const email = 'hello@jienba.io';
+const loginEmail = ' HellO@jienba.io \n';
+
+const normalizationEmail = function(email, loginEmail) {
+    const normalizedEmail = loginEmail.trim().toLowerCase();
+    return normalizedEmail === email;
+
+}
+console.log(normalizationEmail(email, loginEmail));
+
+const myName = 'Adama Dieng Ba';
+console.log(myName.trim());
+// replacing
+const priceGB = '288,97£';
+const priceUS = priceGB.replace('£', '$')
+console.log(priceUS);
+const announcement = 'All passengers come to boarding door 23. Boarding door 23!'
+console.log(announcement.replaceAll('door', 'gate'));
+
+// Replace with regular expression
+console.log(announcement.replace(/door/g, 'gate'));
+
+//Booleans
+const plane = 'Airbus A320neo';
+console.log(plane.includes('A320'));
+console.log(plane.includes('Boeing'));
+console.log(plane.startsWith('Airb'));
+
+if (plane.startsWith('Airbus') && plane.endsWith('neo'))
+    console.log('Part of th NEW Airbus family');
+
+// Practice exercise
+const checkBaggage = function(items) {
+    const baggage = items.toLowerCase();
+    if (baggage.includes('knife') || baggage.includes('gun'))
+        console.log('You are not allowed on board')
+    else
+        console.log('Welcome aboard!')
+}
+
+checkBaggage('I have a laptop, some food and a pocket Knife');
+checkBaggage('Socks and camera');
+checkBaggage('Got some snacks and a for protection');
