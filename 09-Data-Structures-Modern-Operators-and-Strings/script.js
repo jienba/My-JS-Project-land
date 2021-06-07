@@ -674,6 +674,8 @@ checkMiddleSeat('3E');
 /////////////////////////////////////////////////////////
 // String Part 2
 // Fix capitalization in name
+
+/*
 const passenger = 'aDaMa';
 const passengerLower = passenger.toLowerCase();
 const passengerCorrect = passengerLower[0].toUpperCase() + passengerLower.slice(1);
@@ -714,7 +716,7 @@ if (plane.startsWith('Airbus') && plane.endsWith('neo'))
 // Practice exercise
 const checkBaggage = function(items) {
     const baggage = items.toLowerCase();
-    if (baggage.includes('knife') || baggage.includes('gun'))
+    if (baggage.includes('knife') || baggage.includes('g+)un'))
         console.log('You are not allowed on board')
     else
         console.log('Welcome aboard!')
@@ -723,3 +725,44 @@ const checkBaggage = function(items) {
 checkBaggage('I have a laptop, some food and a pocket Knife');
 checkBaggage('Socks and camera');
 checkBaggage('Got some snacks and a for protection');
+
+ */
+//////////////////////////////////////////////////
+// String Part 3
+/*
+console.log('a+very+nice+string'.split('+'));
+console.log('Adama Dieng BA'.split(' '));
+let [firstName, ...lastName] = 'Adama Dieng Ba'.split(' ');
+lastName = lastName.join(' ');
+console.log(firstName, lastName);
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName);
+
+const capitalizeName = function(name) {
+    const names = name.toLowerCase().split(' ');
+    const nameUpper = [];
+
+    for (const nameUpperElement of names) {
+        //nameUpper.push(nameUpperElement[0].toUpperCase() + nameUpperElement.slice(1))
+        nameUpper.push(nameUpperElement.replace(nameUpperElement[0], nameUpperElement[0].toUpperCase()));
+    }
+    console.log(nameUpper.join(' '));
+}
+
+capitalizeName('Adama dieng bA');
+capitalizeName('jessica ann smith Davis');
+capitalizeName('mawlana cheikh ibrahim niass');
+
+ */
+
+//Padding String
+const message = 'Go to gate 23';
+console.log(message.padStart(30, '-').padEnd(15, '+'));
+console.log('jienba'.padStart(30, '-').padEnd(60, '+'));
+
+const maskCreditCard = function(number) {
+    const str = String(number);
+    const last = str.slice(-4);
+    return last.padStart(str.length, '*')
+
+}
