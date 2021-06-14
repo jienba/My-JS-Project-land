@@ -196,7 +196,7 @@ console.log(a);
 console.log(b);
 console.log(other);
 console.log('////////////////////////////////////');
-const [pizza, risotto, ...otherFood] = [...restaurant.mainMenu, ...restaurant.starterMenu ];
+const [pizza, risotto, ...otherFood] = [...restaurant.mainMenu, ...restaurant.starterMenu];
 console.log(pizza);
 
 console.log(risotto);
@@ -753,7 +753,6 @@ capitalizeName('Adama dieng bA');
 capitalizeName('jessica ann smith Davis');
 capitalizeName('mawlana cheikh ibrahim niass');
 
- */
 
 //Padding String
 const message = 'Go to gate 23';
@@ -766,3 +765,73 @@ const maskCreditCard = function(number) {
     return last.padStart(str.length, '*')
 
 }
+
+ */
+//////////////////////////////////////////////////////////////////
+// Coding Challenge #4
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+document.querySelector('button').addEventListener('click', function() {
+    const text = document.querySelector('textarea').value.split('\n');
+    for (let [i, word] of text.entries()) {
+        /*
+        const words = word.toLowerCase().trim().split('_');
+        const wordCamel = [];
+        wordCamel.push(words[0]);
+        wordCamel.push(words[1][0].toUpperCase() + words[1].slice(1) );
+        console.log(wordCamel.join('').padEnd(30, ' ') + '✅'.repeat(i++));
+         */
+        const [first, second] = word.trim().toLowerCase().split('_');
+        const outpout = `${first}${second.replace(second[0], second[0].toUpperCase())}`
+        console.log(outpout.padEnd(20) + '✅'.repeat(i+ 1) );
+    }
+
+
+})
+/*
+const convertCamelCase = function(...listOfVariable) {
+    let i = 1;
+    for (const word of listOfVariable) {
+        const words = word.toLowerCase().split('_');
+        const wordCamel = [];
+        wordCamel.push(words[0]);
+        wordCamel.push(words[1][0].toUpperCase() + words[1].slice(1) );
+        console.log(wordCamel.join('').padEnd(30, ' ') + '✅'.repeat(i++));
+    }
+
+}
+
+ */
+
+
+
+/*
+const convertCamelCase = function(...listOfVariable) {
+    const wordCamel = [];
+    for (let word = 0; word < listOfVariable.length; word++) {
+        const words = listOfVariable[word].toLowerCase().split('_');
+        wordCamel.push(words[0]);
+        wordCamel.push((words[1][0].toUpperCase() + words[1].slice(1)));
+        console.log(`${wordCamel.join('')} `);
+    }
+    console.log(wordCamel)
+    //
+
+}
+
+ */
+
+/*
+const convertCamelCase = function(...listOfVariable) {
+    for (const listOfVariableElement of listOfVariable) {
+        let wordCamel = listOfVariableElement.split('_')
+
+        console.log(wordCamel[]);
+    }
+
+}
+
+ */
+
+//convertCamelCase('underscore_case', 'first_name', 'Some_Variable', 'calculate_AGE', 'delayed_departure');
