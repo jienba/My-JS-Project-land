@@ -277,10 +277,83 @@ displayMethod.call({answers:[1, 5, 3, 9, 6, 1]});
 displayMethod.call({answers:[1, 5, 3, 9, 6, 1]}, 'string');
 
 
+////////////////////////////////////////////////////////
+// IIFE
+
+const runOnce = function () {
+    console.log('This will never run again')
+}
+runOnce();
+
+(function () {
+    console.log('This will never run again')
+})();
+
+(() => console.log('This will also never run again'))();
+
+const secureBooking = function () {
+    let passengerCount = 0;
+    return function () {
+        passengerCount ++;
+        console.log(`${passengerCount} passengers.`)
+    };
+};
+
+const booker = secureBooking();
+booker();
+booker();
+booker();
+
+// Example 1
+/*
+let f;
+
+const g = function () {
+    const a = 23;
+    f= () => console.log(a * 2)
+}
+
+const h = function () {
+    const b = 777;
+    f= () => console.log(b * 2)
+}
+g();
+f();
+console.dir(f);
+// Reassingning f function
+h();
+f();
+console.dir(f);
 
 
+// Example 2
+const boardPassengers = function (n, wait) {
+    const perGroup = n / 3;
 
+    setTimeout(function () {
+        console.log(`We are now boarding all ${n} passengers`)
+        console.log(`There are 3 groups, each with ${perGroup} passengers`)
+    }, wait * 1000);
+    console.log(`Will start boarding in ${wait} seconds`)
 
+}
+// closure has priority on th scope chain
+const perGroup = 1000;
+boardPassengers(150, 3)
 
+*/
+////////////////////////////////////////////
+// Coding Challenge #2
+/*
+Take the IIFE below and at the end of the function, attach an event listener that
+changes the color of the selected h1 element ('header') to blue, each time
+the body element is clicked. Do not select the h1 element again!
 
-
+ */
+(function () {
+    const header = document.querySelector('h1');
+    header.style.color = 'red';
+    document.addEventListener('click', function () {
+        header.style.color = 'blue';
+    })
+})();
