@@ -65,12 +65,77 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // LECTURES
 
+
+
+//const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+/////////////////////////////////////////////////
+// 3. Simply array method
+/*
+let arr = ['a', 'b', 'c', 'd', 'e']
+
+// slice
+console.log(arr.slice(2));
+console.log(arr.slice(2, 4));
+console.log(arr.slice(-2));
+
+// splice
+//console.log(arr.splice(2));
+//console.log(arr.splice(-1));
+console.log(arr);
+console.log(arr.splice(1,4));
+console.log(arr);
+// reverse
+arr = ['a', 'b', 'c', 'd', 'e'];
+const arr2 = ['j', 'i', 'h', 'g', 'f'];
+console.log(arr2.reverse());
+// Concat
+const letters = arr.concat(arr2);
+console.log(letters);
+//////////////////////////////////
+// 4. Foreach method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+for (const [index, movement] of movements.entries()) {
+  movement > 0 ? console.log(`${index + 1}: You deposit ${movement}`) : console.log(`${index + 1}: You withdrew ${Math.abs(movement)}`)
+}
+console.log('--------ForEach--------');
+movements.forEach(function(movement, index) {
+  movement > 0 ? console.log(`${index + 1}: You deposit ${movement}`) : console.log(`${index + 1}: You withdrew ${Math.abs(movement)}`)
+})
+ */ 
+/////////////////////////////////
+// 5. forEach on set and map
+/*
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
   ['GBP', 'Pound sterling'],
 ]);
+// Map
+currencies.forEach(function(currency,key,map) {
+  console.log(`${key}: ${currency}`);
+});
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// set
+const currenciesUnique = new Set(['USD', 'GBP', 'EUR', 'USD', 'GBP', 'EUR']);
 
-/////////////////////////////////////////////////
+currenciesUnique.forEach(function(value, _, set) {
+  console.log(`${value}: ${value}`);
+})
+
+ */
+
+const displayMovements = function(movement) {
+  containerMovements.innerHTML = '';
+  movement.forEach(function(mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const html = `<div class="movements__row">
+                    <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+                    <div class="movements__value">${mov}</div>
+                </div>`
+    containerMovements.insertAdjacentHTML('afterbegin', html)
+  })
+}
+
+displayMovements(account1.movements)

@@ -108,7 +108,7 @@ console.log(new Set('adamadiengba').size)
  */
 ////////////////////////////////////////////////////////////////////
 //16. Map
-/*
+
 const rest = new Map();
 rest.set('name', 'Classico Italiano');
 rest.set(1, 'Firenze, Italy');
@@ -127,7 +127,7 @@ console.log(rest.get(true));
 const time = 12;
 console.log(rest.get(time > rest.get('open') && time < rest.get('close')));
 
- */
+ 
 //13. looping object
 /*
 // Property name
