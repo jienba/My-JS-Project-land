@@ -13,21 +13,21 @@ const account1 = {
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: 'Jien BA',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
 };
 
 const account3 = {
-  owner: 'Steven Thomas Williams',
+  owner: 'Penda Fall',
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
 };
 
 const account4 = {
-  owner: 'Sarah Smith',
+  owner: 'Oumar Niang',
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
@@ -60,6 +60,45 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+
+const displayMovements = function(movement) {
+  containerMovements.innerHTML = '';
+  movement.forEach(function(mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const html = `<div class="movements__row">
+                    <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+                    <div class="movements__value">${mov}</div>
+                </div>`
+    containerMovements.insertAdjacentHTML('afterbegin', html)
+  })
+}
+
+displayMovements(account1.movements);
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((accumulate, mov) => accumulate + mov, 0);
+  labelBalance.textContent = `${balance}€`;
+}
+calcDisplayBalance(account1.movements);
+
+const creatUserNames = function (accs) {
+  /* Function for creating username base on accounts array*/
+  accs.forEach(function (acc) {
+    // Creating a new property called "username" and assign it the user owner and work with form username
+    acc.username = acc.owner
+        .toLowerCase()
+        .split(' ')
+        .map(chunk => chunk[0])
+        .join('')
+  })
+
+
+
+}
+creatUserNames(accounts);
+
+console.log(accounts);
+
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -126,23 +165,10 @@ currenciesUnique.forEach(function(value, _, set) {
 
  */
 
-const displayMovements = function(movement) {
-  containerMovements.innerHTML = '';
-  movement.forEach(function(mov, i) {
-    const type = mov > 0 ? 'deposit' : 'withdrawal';
-    const html = `<div class="movements__row">
-                    <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-                    <div class="movements__value">${mov}</div>
-                </div>`
-    containerMovements.insertAdjacentHTML('afterbegin', html)
-  })
-}
-
-displayMovements(account1.movements)
 
 //////////////////////////////////////////////////////////////
 // Coding Challenge #1
-
+/*
 const checkDogs = function (dogJulia, dogsKate) {
   //1. Cleaning julia array
   const juliaArrWithNoCats = dogJulia.slice();
@@ -167,3 +193,72 @@ const dogJulia = [3, 5, 2, 12, 7];
 const kateDog = [4, 1, 15, 8, 3];
 
 checkDogs(dogJulia, kateDog);
+
+ */
+
+////////////////////////////////////////////////
+// 10. The map method
+/*
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const eurToFcfa = 650;
+const eurToUsd = 1.1;
+
+const movementsFcfa = movements.map(function (mov) {
+  return mov * eurToFcfa
+});
+const movementsUsd = movements.map(mov => mov * eurToUsd )
+console.log(movements);
+console.log(movementsUsd);
+console.log(movementsFcfa);
+
+const movementsDescriptions = movements.map((mov, i) =>{
+  return `Movement ${i + 1} : You ${mov > 0 ? 'deposited' : 'withdrew '} ${Math.abs(mov)}`
+})
+console.log(movementsDescriptions);
+for (const movementsDescription of movementsDescriptions) {
+  console.log(movementsDescription)
+}
+
+ */
+//////////////////////////////////////////
+//12. Filter in practice
+/*
+const deposits = movements.filter(mov => mov > 0)
+console.log('Deposits:');
+console.log(deposits);
+const depositsFor = [];
+for (const mov of movements) if (mov > 0) depositsFor.push(mov)
+console.log('Deposits for of loop');
+console.log(depositsFor);
+const withdrawals = movements.filter(mov => mov < 0)
+console.log('Withdraws:');
+console.log(withdrawals);
+
+ */
+////////////////////////////////////////////
+//13. reduce in practice
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const balance = movements.reduce((accumulate, mov) => accumulate + mov, 0 );
+console.log(balance);
+
+let balance2 = 0;
+for (const mov of movements) balance2 += mov
+
+console.log(balance2)
+
+// Max value
+
+const max = movements.reduce((accumulate, mov) => {
+  if (accumulate > mov)
+    return accumulate
+  else
+    return mov
+}, movements[0])
+
+// Mor shorter for max
+const max2 = movements.reduce((accumulate, mov) => accumulate > mov ? accumulate : mov, movements[0]);
+console.log(max2);
+
+console.log(max);
+
