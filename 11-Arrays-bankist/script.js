@@ -67,7 +67,7 @@ const displayMovements = function(movement) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `<div class="movements__row">
                     <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-                    <div class="movements__value">${mov}</div>
+                    <div class="movements__value">${mov}€</div>
                 </div>`
     containerMovements.insertAdjacentHTML('afterbegin', html)
   })
@@ -81,6 +81,34 @@ const calcDisplayBalance = function (movements) {
 }
 calcDisplayBalance(account1.movements);
 
+const calcDisplaySummary = function(movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+  /*labelSumIn.textContent = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+*/
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    // bank rule to take only interest above 1%
+    .filter((int, i, arr) =>{
+      console.log(arr);
+      return int >= 1;
+    })
+    .reduce((acc, int) => acc + int, 0)
+  labelSumInterest.textContent = `${interest}€`;
+}
+
+calcDisplaySummary(account1.movements)
+
 const creatUserNames = function (accs) {
   /* Function for creating username base on accounts array*/
   accs.forEach(function (acc) {
@@ -92,12 +120,11 @@ const creatUserNames = function (accs) {
         .join('')
   })
 
-
-
 }
 creatUserNames(accounts);
 
-console.log(accounts);
+// console.log(accounts);
+
 
 
 /////////////////////////////////////////////////
@@ -237,6 +264,7 @@ console.log(withdrawals);
  */
 ////////////////////////////////////////////
 //13. reduce in practice
+/*
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const balance = movements.reduce((accumulate, mov) => accumulate + mov, 0 );
@@ -261,4 +289,60 @@ const max2 = movements.reduce((accumulate, mov) => accumulate > mov ? accumulate
 console.log(max2);
 
 console.log(max);
+
+ */
+
+//////////////////////////////////////////////////////////////
+// Coding Challenge #1
+/*
+
+/*Test data:
+  Data 1: [5, 2, 4, 1, 15, 8, 3]
+  Data 2: [16, 6, 10, 5, 6, 1, 4]
+*!/
+const calcAverageHumanAge = function(ages) {
+  const humanAge = ages.map(dogAge => dogAge > 2 ? 16 + dogAge * 4 : 2 * dogAge);
+  console.log('Human age');
+  console.log(humanAge);
+  const adultDogs = humanAge.filter(dogHumaneAge => dogHumaneAge >= 18);
+  console.log('Adult dogs');
+  console.log(adultDogs);
+  const average = adultDogs.reduce((accumulator,adultAgeDog) => accumulator + adultAgeDog, 0 ) / adultDogs.length
+  return `The average human age of all adult dogs ${Math.ceil(average)}`
+}
+
+console.log([5, 2, 4, 1, 15, 8, 3]);
+console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
+console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
+*/
+
+//////////////////////////////////////////////////////////////
+// 15. Magic of chaining methods
+
+const eurToUsd = 1.1
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const totalDepositsUSD = movements
+  .filter(mov => mov < 0)
+  .map((mov , index, array)=>{
+    console.log(array);
+    return mov * eurToUsd
+  } )
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(totalDepositsUSD);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
