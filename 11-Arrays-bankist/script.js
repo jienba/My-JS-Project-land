@@ -73,16 +73,14 @@ const displayMovements = function(movement) {
   })
 }
 
-displayMovements(account1.movements);
 
 const calcDisplayBalance = function (movements) {
   const balance = movements.reduce((accumulate, mov) => accumulate + mov, 0);
   labelBalance.textContent = `${balance}€`;
 }
-calcDisplayBalance(account1.movements);
 
-const calcDisplaySummary = function(movements) {
-  const incomes = movements
+const calcDisplaySummary = function(acc) {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes}€`;
@@ -90,14 +88,14 @@ const calcDisplaySummary = function(movements) {
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
 */
-  const out = movements
+  const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(out)}€`;
 
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
+    .map(deposit => (deposit * acc.interestRate) / 100)
     // bank rule to take only interest above 1%
     .filter((int, i, arr) =>{
       console.log(arr);
@@ -107,7 +105,6 @@ const calcDisplaySummary = function(movements) {
   labelSumInterest.textContent = `${interest}€`;
 }
 
-calcDisplaySummary(account1.movements)
 
 const creatUserNames = function (accs) {
   /* Function for creating username base on accounts array*/
@@ -117,13 +114,39 @@ const creatUserNames = function (accs) {
         .toLowerCase()
         .split(' ')
         .map(chunk => chunk[0])
-        .join('')
+        .join('');
   })
 
 }
 creatUserNames(accounts);
 
-// console.log(accounts);
+//Implementing login
+let currentAccount;
+
+btnLogin.addEventListener('click', function(e) {
+  // Prevent form from submitting
+  e.preventDefault();
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value)
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)){
+
+    // Display UI and message
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`
+    containerApp.style.opacity = 100;
+    // Clear input fields
+    inputLoginPin.value = inputLoginUsername.value = '';
+    inputLoginPin.blur();
+    // Display movements
+    displayMovements(currentAccount.movements);
+    // Display balance
+    calcDisplayBalance(currentAccount.movements);
+    // Display summary
+    calcDisplaySummary(currentAccount);
+  }
+
+});
+
 
 
 
@@ -319,7 +342,7 @@ console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 //////////////////////////////////////////////////////////////
 // 15. Magic of chaining methods
 
-const eurToUsd = 1.1
+/*const eurToUsd = 1.1
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const totalDepositsUSD = movements
@@ -330,13 +353,44 @@ const totalDepositsUSD = movements
   } )
   .reduce((acc, mov) => acc + mov, 0);
 
-console.log(totalDepositsUSD);
+console.log(totalDepositsUSD);*/
 
+//////////////////////////////////////////////////////////////
+// 16. Coding Challenge #3
 
+/*Test data:
+  Data 1: [5, 2, 4, 1, 15, 8, 3]
+  Data 2: [16, 6, 10, 5, 6, 1, 4]*/
+/*
+const calcAverageHumanAge = ages => {
+  return  ages
+    .map(dogAge => dogAge > 2 ? 16 + dogAge * 4 : 2 * dogAge)
+    .filter(dogHumaneAge => dogHumaneAge >= 18)
+    .reduce((accumulator, adultAgeDog, i, arr) => accumulator + adultAgeDog / arr.length, 0 )
+};
 
+console.log(calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]));
 
+console.log(calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]));
 
+ */
 
+//////////////////////////////////////////////////////////////////
+// 17. Find method
+/*
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const firstWithdraw = movements.find(mov => mov < 0 );
+console.log(firstWithdraw);
+
+const account  = accounts.find(acc => acc.owner === 'Jien BA')
+
+const account22 = accounts.filter(acc => acc.owner === 'Jien BA')
+console.log(account);
+console.log(account22);
+
+*/
 
 
 
