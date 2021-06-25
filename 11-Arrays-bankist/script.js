@@ -9,28 +9,28 @@ const account1 = {
   owner: 'Jonas Schmedtmann',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
-  pin: 1111,
+  pin: 1111
 };
 
 const account2 = {
   owner: 'Jien BA',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
-  pin: 2222,
+  pin: 2222
 };
 
 const account3 = {
   owner: 'Penda Fall',
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
-  pin: 3333,
+  pin: 3333
 };
 
 const account4 = {
   owner: 'Oumar Niang',
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
-  pin: 4444,
+  pin: 4444
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -65,19 +65,20 @@ const displayMovements = function(movement) {
   containerMovements.innerHTML = '';
   movement.forEach(function(mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
-    const html = `<div class="movements__row">
-                    <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-                    <div class="movements__value">${mov}€</div>
-                </div>`
-    containerMovements.insertAdjacentHTML('afterbegin', html)
-  })
-}
+    const html = `<div class='movements__row'>
+                    <div class='movements__type movements__type--${type}'>${i + 1} ${type}</div>
+                    <div class='movements__value'>${mov}€</div>
+                </div>`;
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
 
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((accumulate, mov) => accumulate + mov, 0);
-  labelBalance.textContent = `${balance}€`;
-}
+const calcDisplayBalance = function(acc) {
+
+  acc.balance = acc.movements.reduce((accumulate, mov) => accumulate + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
+};
 
 const calcDisplaySummary = function(acc) {
   const incomes = acc.movements
@@ -97,28 +98,34 @@ const calcDisplaySummary = function(acc) {
     .filter(mov => mov > 0)
     .map(deposit => (deposit * acc.interestRate) / 100)
     // bank rule to take only interest above 1%
-    .filter((int, i, arr) =>{
-      console.log(arr);
-      return int >= 1;
-    })
-    .reduce((acc, int) => acc + int, 0)
+    .filter(int => int >= 1)
+    .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${interest}€`;
-}
+};
 
 
-const creatUserNames = function (accs) {
+const creatUserNames = function(accs) {
   /* Function for creating username base on accounts array*/
-  accs.forEach(function (acc) {
+  accs.forEach(function(acc) {
     // Creating a new property called "username" and assign it the user owner and work with form username
     acc.username = acc.owner
-        .toLowerCase()
-        .split(' ')
-        .map(chunk => chunk[0])
-        .join('');
-  })
+      .toLowerCase()
+      .split(' ')
+      .map(chunk => chunk[0])
+      .join('');
+  });
 
-}
+};
 creatUserNames(accounts);
+
+const updateUI = function(acc) {
+  // Display movements
+  displayMovements(acc.movements);
+  // Display balance
+  calcDisplayBalance(acc);
+  // Display summary
+  calcDisplaySummary(acc);
+}
 
 //Implementing login
 let currentAccount;
@@ -126,13 +133,13 @@ let currentAccount;
 btnLogin.addEventListener('click', function(e) {
   // Prevent form from submitting
   e.preventDefault();
-  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value)
-  console.log(currentAccount);
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+  // console.log(currentAccount);
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)){
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
 
     // Display UI and message
-    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`;
     containerApp.style.opacity = 100;
     // Clear input fields
     inputLoginPin.value = inputLoginUsername.value = '';
@@ -140,20 +147,36 @@ btnLogin.addEventListener('click', function(e) {
     // Display movements
     displayMovements(currentAccount.movements);
     // Display balance
-    calcDisplayBalance(currentAccount.movements);
+    calcDisplayBalance(currentAccount);
     // Display summary
     calcDisplaySummary(currentAccount);
   }
 
 });
 
+btnTransfer.addEventListener('click', function(e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+  console.log(receiverAcc, amount, currentAccount.balance);
 
+  inputTransferTo.value  = inputTransferAmount.value = '';
+  //Transfer condition
+  if (amount > 0 && receiverAcc && currentAccount.balance >= amount && receiverAcc?.username !== currentAccount.username) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    //
+    updateUI(currentAccount)
+  }
+
+});
 
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
-
 
 
 //const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
@@ -192,7 +215,7 @@ console.log('--------ForEach--------');
 movements.forEach(function(movement, index) {
   movement > 0 ? console.log(`${index + 1}: You deposit ${movement}`) : console.log(`${index + 1}: You withdrew ${Math.abs(movement)}`)
 })
- */ 
+ */
 /////////////////////////////////
 // 5. forEach on set and map
 /*
