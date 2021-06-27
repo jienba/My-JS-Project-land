@@ -133,7 +133,7 @@ let currentAccount;
 btnLogin.addEventListener('click', function(e) {
   // Prevent form from submitting
   e.preventDefault();
-  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+  currentAccount = accounts.find(acc => acc.username === (inputLoginUsername.value.trim()));
   // console.log(currentAccount);
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
@@ -153,7 +153,7 @@ btnLogin.addEventListener('click', function(e) {
   }
 
 });
-
+// Transfer feature
 btnTransfer.addEventListener('click', function(e) {
   e.preventDefault();
   const amount = Number(inputTransferAmount.value);
@@ -173,9 +173,27 @@ btnTransfer.addEventListener('click', function(e) {
 
 });
 
+
+// make a loan feature
+btnLoan.addEventListener('click', e =>{
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0 && currentAccount.movements.some(mov =>  mov >= amount * 0.1)){
+    // Add movement
+    currentAccount.movements.push(amount);
+    // Update UI
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+
+})
+
+
+// Deleting an account feature
 btnClose.addEventListener('click', function(e) {
   e.preventDefault();
-  if (currentAccount.username === inputCloseUsername.value && currentAccount.pin === Number(inputClosePin.value) ){
+  if (currentAccount.username === (inputCloseUsername.value).trim() && currentAccount.pin === Number((inputClosePin.value).trim()) ){
     const userIndex = accounts.findIndex(acc => acc.username === inputCloseUsername.value );
     inputCloseUsername.value = inputClosePin.value = '';
     //console.log(userIndex);
@@ -183,7 +201,6 @@ btnClose.addEventListener('click', function(e) {
     accounts.splice(userIndex, 1);
     // Hide UI
     containerApp.style.opacity = 0;
-
   }
 
 })
@@ -429,6 +446,48 @@ console.log(account);
 console.log(account22);
 
 */
+///////////////////////////////////////////////////////////
+// 21. Some and every method
+
+/*const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const doesHaveDeposit = movements.some(mov => mov > 0);
+console.log(doesHaveDeposit);*/
+
+/////////////////////////////////////////////////////////////
+// 22. flat and flatMap
+
+const arr = [1,2,3,[4,5], [6,7,8], 9]
+
+console.log(arr.flat());
+
+const arrDeep = [1,[2,3,[4,5,6,], [7,8,9]]]
+console.log(arrDeep.flat(2));
+
+// flat
+const overAllBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0)
+
+console.log(overAllBalance);
+const overAllBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0)
+console.log(overAllBalance2);
+
+
+/////////////////////////////////////////////////////////////
+//23. Shorting
+const numbers = [1,3,50,6000,2,900,8]
+
+// return > 0 b,a (switch the order)
+// return < 0 a,b (keep the order)
+console.log(numbers.sort((a,b) => {
+  if (a > b)
+    return 1
+  if (a < b)
+    return -1
+}));
 
 
 
