@@ -61,9 +61,10 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function(movement) {
+const displayMovements = function(movements, sort = false) {
   containerMovements.innerHTML = '';
-  movement.forEach(function(mov, i) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements
+  movs.forEach(function(mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `<div class='movements__row'>
                     <div class='movements__type movements__type--${type}'>${i + 1} ${type}</div>
@@ -136,7 +137,7 @@ btnLogin.addEventListener('click', function(e) {
   currentAccount = accounts.find(acc => acc.username === (inputLoginUsername.value.trim()));
   // console.log(currentAccount);
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === Number((inputLoginPin.value.trim()))) {
 
     // Display UI and message
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`;
@@ -203,6 +204,13 @@ btnClose.addEventListener('click', function(e) {
     containerApp.style.opacity = 0;
   }
 
+});
+// Sort movements features
+let sorted = false;
+btnSort.addEventListener('click', e => {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 })
 
 
@@ -455,6 +463,7 @@ console.log(doesHaveDeposit);*/
 
 /////////////////////////////////////////////////////////////
 // 22. flat and flatMap
+/*
 
 const arr = [1,2,3,[4,5], [6,7,8], 9]
 
@@ -475,25 +484,71 @@ const overAllBalance2 = accounts
   .reduce((acc, mov) => acc + mov, 0)
 console.log(overAllBalance2);
 
+*/
 
 /////////////////////////////////////////////////////////////
 //23. Shorting
-const numbers = [1,3,50,6000,2,900,8]
+//
+// // Strings
+// const owners = ['Jienba', 'Penda', 'Oumar', 'Jonas']
+// console.log(owners.sort());
+//
+// // Numbers
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+//
+// const numbers = [1,3,50,6000,2,900,8]
+// // return > 0 b,a (switch the order)
+// // return < 0 a,b (keep the order)
+//
+// // Ascending order
+// console.log(numbers.sort((a,b) => {
+//   if (a > b)
+//     return 1
+//   if (a < b)
+//     return -1
+// }));
+//
+// // Let improve this
+// console.log('------------Improve------------');
+// console.log(numbers.sort((a,b) => a - b));
+// console.log(numbers.sort((a,b) => a - b));
+// console.log('------------Improve------------');
+//
+//
+// // Descending order
+// console.log(movements.sort((a,b) => {
+//   if (a > b) return -1
+//   if (a < b) return 1
+// }));
+//
+// console.log(movements.sort((a,b) => b - a))
+//
 
-// return > 0 b,a (switch the order)
-// return < 0 a,b (keep the order)
-console.log(numbers.sort((a,b) => {
-  if (a > b)
-    return 1
-  if (a < b)
-    return -1
-}));
+/////////////////////////////////////////////////////
+// 24. fill method
+
+const arr = [1,2,3,4,5,6,7,8,9]
+
+//Empty array + fill method
+
+const x = new Array(7);
+x.fill(5,1);
+console.log(x);
 
 
+// Array.from()
 
+const y = Array.from({length: 7}, () => 1);
+console.log(y);
 
+const z = Array.from({length :7}, (_, i) => i + 1);
+console.log(z);
 
+const diceRandomArrays = Array.from({length: 100}, () => Math.ceil(Math.random() * 6))
+console.log(diceRandomArrays);
 
-
-
-
+labelBalance.addEventListener('click', () =>{
+  const movementsUI = Array.from(document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', '')));
+  console.log(movementsUI);
+})
