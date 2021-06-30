@@ -63,7 +63,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 const displayMovements = function(movements, sort = false) {
   containerMovements.innerHTML = '';
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
   movs.forEach(function(mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `<div class='movements__row'>
@@ -126,7 +126,7 @@ const updateUI = function(acc) {
   calcDisplayBalance(acc);
   // Display summary
   calcDisplaySummary(acc);
-}
+};
 
 //Implementing login
 let currentAccount;
@@ -161,7 +161,7 @@ btnTransfer.addEventListener('click', function(e) {
   const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
   console.log(receiverAcc, amount, currentAccount.balance);
 
-  inputTransferTo.value  = inputTransferAmount.value = '';
+  inputTransferTo.value = inputTransferAmount.value = '';
   //Transfer condition
   if (amount > 0 && receiverAcc && currentAccount.balance >= amount && receiverAcc?.username !== currentAccount.username) {
     // Doing the transfer
@@ -169,18 +169,18 @@ btnTransfer.addEventListener('click', function(e) {
     receiverAcc.movements.push(amount);
 
     //
-    updateUI(currentAccount)
+    updateUI(currentAccount);
   }
 
 });
 
 
 // make a loan feature
-btnLoan.addEventListener('click', e =>{
+btnLoan.addEventListener('click', e => {
   e.preventDefault();
 
   const amount = Number(inputLoanAmount.value);
-  if (amount > 0 && currentAccount.movements.some(mov =>  mov >= amount * 0.1)){
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
     currentAccount.movements.push(amount);
     // Update UI
@@ -188,14 +188,14 @@ btnLoan.addEventListener('click', e =>{
   }
   inputLoanAmount.value = '';
 
-})
+});
 
 
 // Deleting an account feature
 btnClose.addEventListener('click', function(e) {
   e.preventDefault();
-  if (currentAccount.username === (inputCloseUsername.value).trim() && currentAccount.pin === Number((inputClosePin.value).trim()) ){
-    const userIndex = accounts.findIndex(acc => acc.username === inputCloseUsername.value );
+  if (currentAccount.username === (inputCloseUsername.value).trim() && currentAccount.pin === Number((inputClosePin.value).trim())) {
+    const userIndex = accounts.findIndex(acc => acc.username === inputCloseUsername.value);
     inputCloseUsername.value = inputClosePin.value = '';
     //console.log(userIndex);
     // Delete account
@@ -211,7 +211,7 @@ btnSort.addEventListener('click', e => {
   e.preventDefault();
   displayMovements(currentAccount.movements, !sorted);
   sorted = !sorted;
-})
+});
 
 
 /////////////////////////////////////////////////
@@ -526,6 +526,7 @@ console.log(overAllBalance2);
 
 /////////////////////////////////////////////////////
 // 24. fill method
+/*
 
 const arr = [1,2,3,4,5,6,7,8,9]
 
@@ -552,3 +553,77 @@ labelBalance.addEventListener('click', () =>{
     el => Number(el.textContent.replace('€', '')));
   console.log(movementsUI);
 })
+*/
+
+/////////////////////////////////////////////////////////////////
+// Coding Challenge #4
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+// TODO 1. Loop over the 'dogs' array containing dog objects, and for each dog, calculate
+// the recommended food portion and add it to the object as a new property. Do
+// not create a new array, simply loop over the array. Forumla:
+// recommendedFood = weight ** 0.75 * 28. (The result is in grams of
+// food, and the weight needs to be in kg)
+dogs.forEach(dog => dog.recommendedFood = Math.trunc(dog.weight ** 0.75 * 28));
+console.log(dogs);
+//TODO 2. Find Sarah's dog and log to the console whether it's eating too much or too
+// little. Hint: Some dogs have multiple owners, so you first need to find Sarah in
+// the owners array, and so this one is a bit tricky (on purpose)
+dogs.forEach(dog => {
+  if (dog.owners.includes('Sarah')){
+    if (dog.curFood > (dog.recommendedFood * 0.90) && dog.curFood < (dog.recommendedFood * 1.10) ){
+      console.log("Sarah's dog eat recommended portion of foods");
+    }else  if (dog.curFood > dog.recommendedFood )
+      console.log("Sarah's dog over eat");
+    else
+      console.log("Sarah's dog under eat");
+
+  }
+
+})
+
+// Correction
+const sarahDog = dogs.find(dog => dog.owners.includes('Sarah'));
+console.log(`Sarah's god is eating too ${sarahDog.curFood > sarahDog.recommendedFood ? 'much' : 'little'} `);
+
+//TODO 3. Create an array containing all owners of dogs who eat too much
+// ('ownersEatTooMuch') and an array with all owners of dogs who eat too little
+// ('ownersEatTooLittle').
+const ownerEatTooMuch = dogs.filter(dog => dog.recommendedFood > dog.curFood).flatMap(dog => dog.owners);
+console.log(ownerEatTooMuch);
+const ownersEatTooLittle = dogs.filter(dog => dog.recommendedFood < dog.curFood).flatMap(dog => dog.owners);
+console.log(ownersEatTooLittle);
+
+// TODO 4. Log a string to the console for each array created in 3., like this: "Matilda and
+// Alice and Bob's dogs eat too much!" and "Sarah and John and Michael's dogs eat
+// too little!"
+console.log(`${ownerEatTooMuch.join(' and ')} 's dog eat too much!'`)  ;
+console.log(`${ownersEatTooLittle.join(' and ')} 's dog eat too little!'`)  ;
+
+// TODO 5. Log to the console whether there is any dog eating exactly the amount of food
+// that is recommended (just true or false)
+console.log(dogs.some(dog => dog.recommendedFood === dog.curFood));
+
+//TODO 6. Log to the console whether there is any dog eating an okay amount of food
+// (just true or false)
+const checkOkEating = dog => dog.curFood > (dog.recommendedFood * 0.90) && dog.curFood < (dog.recommendedFood * 1.10)
+console.log(dogs.some(checkOkEating));
+// TODO 7. Create an array containing the dogs that are eating an okay amount of food (try
+// to reuse the condition used in 6.)
+const dogOKFood = dogs.filter(checkOkEating);
+console.log(dogOKFood);
+//TODO 8. Create a shallow copy of the 'dogs' array and sort it by recommended food
+// portion in an ascending order (keep in mind that the portions are inside the
+// array's objects 😉)
+const arrAscPortion = dogs
+  .slice()
+  .sort((a, b) => a.recommendedFood - b.recommendedFood );
+console.log(arrAscPortion);
+
+
+
