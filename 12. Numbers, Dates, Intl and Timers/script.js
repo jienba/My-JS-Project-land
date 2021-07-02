@@ -90,7 +90,7 @@ const displayMovements = function(movements, sort = false) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `<div class='movements__row'>
                     <div class='movements__type movements__type--${type}'>${i + 1} ${type}</div>
-                    <div class='movements__value'>${mov}€</div>
+                    <div class='movements__value'>${mov.toFixed(2)}€</div>
                 </div>`;
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
@@ -100,14 +100,14 @@ const displayMovements = function(movements, sort = false) {
 const calcDisplayBalance = function(acc) {
 
   acc.balance = acc.movements.reduce((accumulate, mov) => accumulate + mov, 0);
-  labelBalance.textContent = `${acc.balance}€`;
+  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
 };
 
 const calcDisplaySummary = function(acc) {
   const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes}€`;
+  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
   /*labelSumIn.textContent = movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
@@ -201,7 +201,7 @@ btnTransfer.addEventListener('click', function(e) {
 btnLoan.addEventListener('click', e => {
   e.preventDefault();
 
-  const amount = +(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value).toFixed(2);
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
     currentAccount.movements.push(amount);
@@ -272,10 +272,53 @@ console.log(Math.PI * Number.parseFloat('24px') ** 2);
 console.log(Math.ceil(Math.random() * 6));
 // Let generalize random function
 
-const randInt = (min, max) => Math.trunc(Math.random() * (max - min) + 1) + min;
+const randInt = (min, max) => Math.floor(Math.random() * (max - min) + 1) + min;
 
 console.log(randInt(1, 4 ));
 
+//Rounding integers
+const numberString = '24.9';
+console.log(Math.trunc(2.9));
+console.log(Math.round(2.9));
+console.log(Math.ceil(2.9));
+console.log(Math.floor(2.9));
+console.log(Math.floor(numberString));
+
+// Rounding decimal
+console.log((2.7).toFixed(0));
+console.log((2.7).toFixed(3));
+console.log((2.7896).toFixed(2));
+
+/////////////////////////////////////////////////////////
+// 5. The remainder operator
+/*
+
+labelBalance.addEventListener('click', function() {
+  console.log('hay');
+  [...document.querySelectorAll('.movements__row')]
+    .forEach((row, i) => {
+    if (i % 2 === 0)
+      row.style.backgroundColor = 'blue';
+  })
+
+});
+*/
+
+// 7. Creating Date
+
+const now = new Date().getTime();
+console.log('Now');
+console.log(now);
+// Working with day
+
+const future =  new Date(2037, 10, 19, 15, 23);
+console.log(future.getFullYear());
+console.log(future.getMonth());
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
 
 
 
