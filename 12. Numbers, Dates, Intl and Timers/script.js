@@ -221,8 +221,7 @@ const startLogoutTimer = function() {
   let time = 120;
   tick();
   // Caller the timer every second
-  const timer = setInterval(tick, 1000
-  );
+  const timer = setInterval(tick, 1000);
 
   return timer;
 };
@@ -284,7 +283,7 @@ btnLogin.addEventListener('click', function(e) {
     inputLoginPin.value = inputLoginUsername.value = '';
     inputLoginPin.blur();
     if (timer) clearInterval(timer);
-    startLogoutTimer();
+    timer = startLogoutTimer();
     // Update UI
     updateUI(currentAccount);
   }
@@ -310,7 +309,7 @@ btnTransfer.addEventListener('click', function(e) {
 
     // Reset timer
     clearInterval(timer);
-    startLogoutTimer();
+    timer = startLogoutTimer();
 
     //Update UI
     updateUI(currentAccount);
@@ -333,6 +332,7 @@ btnLoan.addEventListener('click', e => {
         currentAccount.movementsDates.push(new Date().toISOString());
         // Reset timer
         clearInterval(timer);
+        console.log('job done!');
         timer = startLogoutTimer();
         // Update UI
         updateUI(currentAccount);
