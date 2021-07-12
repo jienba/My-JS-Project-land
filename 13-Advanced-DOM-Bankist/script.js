@@ -73,7 +73,11 @@ document
 // Style
 
 message.style.backgroundColor = '#37383d';
-message.style.width = '120%';
+message.style.width = '104%';
+message.style.height =
+    Number.parseFloat(getComputedStyle(message).height , 10) + 40 +'px';
+/*
+
 
 console.log(message.style.backgroundColor);
 // Output: Nothing
@@ -81,8 +85,6 @@ console.log(message.style.height);
 
 console.log(getComputedStyle(message).height);
 
-message.style.height =
-    Number.parseFloat(getComputedStyle(message).height , 10) + 40 +'px';
 // console.log(getComputedStyle(message).height)
 
 document.documentElement.style.setProperty('--color-primary', 'orangered')
@@ -110,6 +112,41 @@ console.log(link.href);
 // Data attributes
 
 console.log(logo.dataset.versionNumber);
+
+*/
+/////////////////////////////////////////////////
+//7. Implementing scrolling smooth
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+    // const coordsS1 = section1.getBoundingClientRect();
+    // console.log(coordsS1);
+    // console.log(e.target.getBoundingClientRect());
+    //
+    // console.log('Current scroll: ', window.pageXOffset, window.pageYOffset);
+    //
+    // console.log('Height/width viewport', document.documentElement.clientHeight, document.documentElement.clientWidth);
+    //
+    // // Scroll to
+    // // scrollTo(coordsS1.left + window.pageXOffset, coordsS1.top +window.pageYOffset);
+    //
+    // scrollTo(
+    //     {
+    //         left: coordsS1.left + window.pageXOffset,
+    //         top: coordsS1.top + window.pageYOffset,
+    //         behavior: 'smooth'
+    //     }
+    // )
+    section1.scrollIntoView({behavior: "smooth"})
+
+    
+})
+
+
+
+
 
 
 
