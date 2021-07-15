@@ -8,6 +8,11 @@ const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 const header = document.querySelector('.header');
 const message = document.createElement('div');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainers = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+const nav = document.querySelector('.nav');
+
 
 
 ///////////////////////////////////////
@@ -62,7 +67,7 @@ message.style.height = Number.parseFloat(getComputedStyle(message).height , 10) 
 //////////////////////////////////////////////////////////
 // Button scrolling  smoothly
 
-btnScrollTo.addEventListener('click', function (e) {
+// btnScrollTo.addEventListener('click', function (e) {
 
     ////////// Old way
     // const coordsS1 = section1.getBoundingClientRect();
@@ -85,8 +90,8 @@ btnScrollTo.addEventListener('click', function (e) {
     // )
 
     /// Modern way
-    section1.scrollIntoView({behavior: "smooth"});
-});/////////////////////////////////////////////
+    // section1.scrollIntoView({behavior: "smooth"});
+// });/////////////////////////////////////////////
 // Creating and Deleting Cookies message
 
 // Creating and inserting elements
@@ -141,11 +146,6 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 //////////////////////////////////////////////////
 // Tabbed component
 
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainers = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
-
-console.log(tabs);
 tabsContainers.addEventListener('click', function (e) {
     const clicked = e.target.closest('.operations__tab');
     // Guard clause
@@ -153,7 +153,7 @@ tabsContainers.addEventListener('click', function (e) {
 
     // Remove classes
     tabs.forEach(t => t.classList.remove('operations__tab--active'));
-    tabsContent.forEach(c=> c.classList.remove('operations__content--active'));
+    tabsContent.forEach(c => c.classList.remove('operations__content--active'));
     // Activate tab
     clicked.classList.add('operations__tab--active');
     // Activate content area
@@ -161,6 +161,27 @@ tabsContainers.addEventListener('click', function (e) {
         .querySelector(`.operations__content--${clicked.dataset.tab}`)
         .classList.add('operations__content--active');
 });
+////////////////////////////////////////////////////////////
+// 14. Implementing Menu fade animation
+
+const handleHover = function (e) {
+    if (e.target.classList.contains('nav__link')){
+        const link = e.target;
+        const siblings = link.closest('nav').querySelectorAll('.nav__link');
+        const logo = link.closest('nav').querySelector('img');
+
+        siblings.forEach(el => {
+            if (el !== link) el.style.opacity = this;
+        });
+        logo.style.opacity = this;
+    }
+}
+
+// Passing "argument" into handler
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+nav.addEventListener('mouseout', handleHover.bind(1));
+
+
 
 
 
