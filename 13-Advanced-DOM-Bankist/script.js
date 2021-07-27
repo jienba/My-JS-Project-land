@@ -6,8 +6,8 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
-const header = document.querySelector('.header');
 const message = document.createElement('div');
+const header = document.querySelector('.header');
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainers = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
@@ -44,25 +44,6 @@ document.addEventListener('keydown', function (e) {
 // Creating and Deleting Cookies message
 
 // Creating and inserting elements
-message.classList.add('cookie-message');
-// message.textContent = 'We use cookie for improved functionality and analytics. <button class="btn btn--close-cookie"> Got it! </button>';
-message.innerHTML = 'We use cookie for improved functionality and analytics. <button class="btn btn--close-cookie"> Got it! </button>';
-
-// header.prepend(message);
-header.append(message);
-// Deleting element
-document
-    .querySelector('.btn--close-cookie')
-    .addEventListener('click', function () {
-        message.remove();
-        // message.parentElement.removeChild(message)
-    });
-// Style
-
-message.style.backgroundColor = '#37383d';
-message.style.width = '104%';
-message.style.height = Number.parseFloat(getComputedStyle(message).height , 10) + 40 +'px';
-
 
 //////////////////////////////////////////////////////////
 // Button scrolling  smoothly
@@ -95,9 +76,11 @@ message.style.height = Number.parseFloat(getComputedStyle(message).height , 10) 
 // Creating and Deleting Cookies message
 
 // Creating and inserting elements
+/*
+
 message.classList.add('cookie-message');
 // message.textContent = 'We use cookie for improved functionality and analytics. <button class="btn btn--close-cookie"> Got it! </button>';
-message.innerHTML = 'We use cookie for improved functionality and analytics. <button class="btn btn--close-cookie"> Got it! </button>';
+message.innerHTML = 'We use cookie for improved functionality and analytics.<button class="btn btn--close-cookie"> Got it! </button>';
 
 // header.prepend(message);
 header.append(message);
@@ -109,11 +92,11 @@ document
         // message.parentElement.removeChild(message)
     });
 // Style
-
 message.style.backgroundColor = '#37383d';
 message.style.width = '104%';
 message.style.height = Number.parseFloat(getComputedStyle(message).height , 10) + 40 +'px';
 
+*/
 
 /////////////////////////////////////////////////////////
 // Page navigation
@@ -174,6 +157,7 @@ const handleHover = function (e) {
             if (el !== link) el.style.opacity = this;
         });
         logo.style.opacity = this;
+
     }
 }
 
@@ -181,7 +165,54 @@ const handleHover = function (e) {
 nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 
+///////////////////////////////////////////////////////
+//15. Sticky navigation
 
+/*const initialCoords = section1.getBoundingClientRect();
+
+window.addEventListener('scroll', function () {
+    window.scrollY > initialCoords.top ? nav.classList.add('sticky') : nav.classList.remove('sticky');
+});*/
+
+/////////////////////////////////////////////////////
+// 16. Sticky navigation with observer intersection API
+/*
+
+const obsCallback = function (entries, observer) {
+    entries.forEach(entry => {
+        console.log(entry);
+        // alert('hay');
+    })
+
+}
+const obsOptions = {
+    root: null,
+    threshold: [0, 0.1, 0.2]
+};
+const observer = new IntersectionObserver(obsCallback, obsOptions)
+observer.observe(section1);
+
+*/
+
+// const header = document.querySelector('.header');
+const navheight = nav.getBoundingClientRect().height;
+console.log(navheight);
+const stickyNav = function (entries) {
+    const [entry] = entries;
+    !entry.isIntersecting ? nav.classList.add('sticky') : nav.classList.remove('sticky');
+}
+
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+    root: null,
+    threshold: 0,
+    rootMargin: `-${navheight}px`
+})
+headerObserver.observe(header);
+
+/*window.addEventListener('scroll', function () {
+    console.log(window.scrollY);
+});*/
 
 
 
