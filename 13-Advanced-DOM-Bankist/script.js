@@ -229,7 +229,7 @@ const sectionObserver = new IntersectionObserver(revealSection, {root: null, thr
 
 allSections.forEach(section => {
     sectionObserver.observe(section);
-    section.classList.add('section--hidden');
+    // section.classList.add('section--hidden');
 });
 //////////////////////////////////////////////////
 // 18.Lazy loading images
@@ -256,6 +256,43 @@ const imgObserver  = new IntersectionObserver(loadImg, {
 });
 
 imgTargets.forEach(img => imgObserver.observe(img));
+
+
+//////////////////////////////////////////////////
+// 19. Slider
+
+const slides = document.querySelectorAll('.slide');
+const slider = document.querySelector('.slider');
+const btnLeft = document.querySelector('.slider__btn--left')
+const btnRight = document.querySelector('.slider__btn--right')
+let currentSlide = 0;
+const maxSlide = slides.length;
+console.log(maxSlide);
+
+// slider.style.transform = 'scale(0.3) translateX(-700px)';
+// slider.style.overflow = 'visible';
+
+
+const gotoSlide = (slide) => {
+    slides.forEach((s,i) => {
+        s.style.transform = `translateX(${100 * (i - slide)}%)`;
+    })
+
+}
+gotoSlide(0)
+// Next slide
+const nextSlide = () => {
+    currentSlide === maxSlide - 1 ? currentSlide = 0 : currentSlide++;
+    gotoSlide(currentSlide);
+}
+const prevSlide = () => {
+    currentSlide === 0 ? currentSlide = maxSlide - 1 : currentSlide--;
+    gotoSlide(currentSlide);
+}
+
+btnRight.addEventListener('click', nextSlide);
+btnLeft.addEventListener('click', prevSlide);
+
 
 
 /////////////////////////////////////////////////
