@@ -334,7 +334,11 @@ const slider = function (){
 }
 slider();
 
-
+window.addEventListener('beforeunload', function (e) {
+    e.preventDefault();
+    console.log(e);
+    e.returnValue = 'message';
+})
 
 /////////////////////////////////////////////////
 // 5. Selecting, Creating  and Deleting element
