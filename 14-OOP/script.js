@@ -90,7 +90,8 @@ PersonCl.prototype.cry = function () {
     console.log('😭 😭 😭 😭')
 }
 
-jienba.cry()
+jienba.cry();
+jienba.greet();
 console.log(jienba.__proto__ === PersonCl.prototype);
 
 
