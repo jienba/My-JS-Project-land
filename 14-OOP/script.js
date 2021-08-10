@@ -1,4 +1,5 @@
 'use strict';
+/*
 
 const Person = function (firstName, birthYear) {
     console.log(this)
@@ -64,8 +65,33 @@ car1.accelerate();
 car2.brake();
 car3.accelerate();
 
+*/
+////////////////////////////////////////////
+// 10. ES6 Classes
 
+class PersonCl {
+    constructor(firstName, birthYear) {
+        this.firstName = firstName;
+        this.birthYear = birthYear;
+    }
 
+    calcAge(){
+        console.log(2021 - this.birthYear);
+    }
+
+    greet() {
+        console.log(`Hey ${this.firstName}`);
+    }
+
+}
+
+const jienba = new PersonCl('Adama', 1997)
+PersonCl.prototype.cry = function () {
+    console.log('😭 😭 😭 😭')
+}
+
+jienba.cry()
+console.log(jienba.__proto__ === PersonCl.prototype);
 
 
 
