@@ -69,9 +69,10 @@ car3.accelerate();
 ////////////////////////////////////////////
 // 10. ES6 Classes
 
+
 class PersonCl {
-    constructor(firstName, birthYear) {
-        this.firstName = firstName;
+    constructor(fullname, birthYear) {
+        this.fullname = fullname;
         this.birthYear = birthYear;
     }
 
@@ -80,19 +81,65 @@ class PersonCl {
     }
 
     greet() {
-        console.log(`Hey ${this.firstName}`);
+        console.log(`Hey ${this.fullname}`);
+    }
+
+    get age() {
+        return 2021 - this.birthYear
+    }
+
+    set fullname(name){
+        name.includes(' ') ? this._fullname = name : alert(`${name} is not a full name!`);
+    }
+
+    get fullname(){
+        return this._fullname;
     }
 
 }
 
-const jienba = new PersonCl('Adama', 1997)
+const jienba = new PersonCl('Adama Dieng', 1997)
+
 PersonCl.prototype.cry = function () {
     console.log('😭 😭 😭 😭')
 }
 
+jienba.calcAge();
+console.log(jienba.age);
+jienba.fullname = 'Adama BA';
+console.log(jienba.fullname);
+
 jienba.cry();
 jienba.greet();
 console.log(jienba.__proto__ === PersonCl.prototype);
+
+
+
+////////////////////////////////////////////
+// 11. Getters and Setters
+const account = {
+    owner: 'Jienba',
+    movements: [200, 530, 120, 300],
+
+    get latest(){
+        return this.movements.slice(-1).pop();
+    },
+
+    set latest(mov){
+        this.movements.push(mov);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
