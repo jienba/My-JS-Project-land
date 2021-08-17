@@ -68,6 +68,7 @@ car3.accelerate();
 */
 ////////////////////////////////////////////
 // 10. ES6 Classes
+/*
 
 
 class PersonCl {
@@ -101,7 +102,7 @@ class PersonCl {
 const jienba = new PersonCl('Adama Dieng', 1997)
 
 PersonCl.prototype.cry = function () {
-    console.log('😭 😭 😭 😭')
+    console.log('😭 😭 😭 😭');
 }
 
 jienba.calcAge();
@@ -114,9 +115,12 @@ jienba.greet();
 console.log(jienba.__proto__ === PersonCl.prototype);
 
 
+*/
 
 ////////////////////////////////////////////
 // 11. Getters and Setters
+/*
+
 const account = {
     owner: 'Jienba',
     movements: [200, 530, 120, 300],
@@ -130,8 +134,66 @@ const account = {
     }
 }
 
+*/
+
+/////////////////////////////////////////////
+// 12. Static method
+
+class PersonCl {
+    constructor(fullname, birthYear) {
+        this.fullname = fullname;
+        this.birthYear = birthYear;
+    }
+
+    // Instance method
+    calcAge(){
+        console.log(2021 - this.birthYear);
+    }
+
+    greet() {
+        console.log(`Hey ${this.fullname}`);
+    }
+
+    get age() {
+        return 2021 - this.birthYear
+    }
+
+    set fullname(name){
+        name.includes(' ') ? this._fullname = name : alert(`${name} is not a full name!`);
+    }
+
+    get fullname(){
+        return this._fullname;
+    }
+    // Static method
+    static hey(){
+        console.log('Hey there');
+    }
+
+}
 
 
+const Person = function (firstName, birthYear) {
+    console.log(this)
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+
+    // Don't use do this
+    // this.calcAge = function () {
+    //     console.log(2021 - this.birthYear)
+    // }
+}
+
+Person.hey = function () {
+    console.log('Hey there ✋')
+}
+
+const jienba = new Person('Adama', 2045);
+const jienbazumaki = new PersonCl('Adama BA', 2045);
+console.log(jienba)
+PersonCl.hey()
+
+Person.hey();
 
 
 
