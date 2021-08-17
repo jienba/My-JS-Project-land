@@ -138,6 +138,7 @@ const account = {
 
 /////////////////////////////////////////////
 // 12. Static method
+/*
 
 class PersonCl {
     constructor(fullname, birthYear) {
@@ -195,14 +196,31 @@ PersonCl.hey()
 
 Person.hey();
 
+*/
 
+//////////////////////////////////////////
+// 13. Object.create()
 
+const PersonProto  = {
+    calcAge(){
+        return 2037 - this.birthYear;
+    },
+    init(firstName, birthYear){
+        this.firstName = firstName;
+        this.birthYear = birthYear
+    }
+}
 
+const jienba = Object.create(PersonProto);
+console.log(jienba);
+jienba.name = 'Adama';
+jienba.birthYear = 2021;
 
+jienba.calcAge();
 
-
-
-
+const ndeye = Object.create(PersonProto);
+ndeye.init('Ndeye', 1998);
+console.log(`Ndeye is ${ndeye.calcAge()} years old.`);
 
 
 
