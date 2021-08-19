@@ -200,6 +200,7 @@ Person.hey();
 
 //////////////////////////////////////////
 // 13. Object.create()
+/*
 
 const PersonProto  = {
     calcAge(){
@@ -221,6 +222,42 @@ jienba.calcAge();
 const ndeye = Object.create(PersonProto);
 ndeye.init('Ndeye', 1998);
 console.log(`Ndeye is ${ndeye.calcAge()} years old.`);
+
+*/
+///////////////////////////////////////////////
+// 14. Coding Challenge #2
+
+class CarCl {
+    constructor(make, speed) {
+        this.make = make;
+        this.speed = speed;
+    }
+
+    get speedUS(){
+        return (this.speed / 1.6);
+    }
+
+    set speedUS(speed){
+        this.speed = (speed * 1.6);
+    }
+    accelerate () {
+        this.speed += 10;
+        console.log(`${this.make} is going at ${this.speed} km/h.`);
+    };
+
+    brake () {
+        this.speed -= 5;
+        console.log(`${this.make} is going at ${this.speed} km/h.`);
+    };
+
+}
+
+const car1 = new CarCl('Ford', 120 );
+console.log(car1.speedUS);
+car1.accelerate()
+console.log(car1.speedUS);
+car1.speedUS = 50;
+console.log(car1.speedUS);
 
 
 
