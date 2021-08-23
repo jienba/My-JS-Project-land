@@ -263,6 +263,7 @@ console.log(car1.speedUS);
 //////////////////////////////////////
 // 15. Inheritance between "classes"
 
+/*
 const Person = function (firstName, birthYear) {
     this.firstName = firstName;
     this.birthYear = birthYear;
@@ -285,3 +286,43 @@ Student.prototype.introduce = function () {
 
 const jienba = new Student('Adama', 1997, 'Computer Science and Cryptography.');
 jienba.introduce();
+*/
+//////////////////////////////////////
+// 16. Coding Challenge #3
+const Car = function (make, speed) {
+    this.make = make;
+    this.speed = speed;
+}
+
+Car.prototype.accelerate = function () {
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed} km/h.`);
+};
+
+Car.prototype.brake = function () {
+    this.speed -= 5;
+    console.log(`${this.make} is going at ${this.speed} km/h.`);
+};
+
+const Ev = function (make, speed, charge) {
+    Car.call(this, make, speed);
+    this.charge = charge;
+}
+
+Ev.prototype = Object.create(Car.prototype);
+Ev.prototype.constructor = Ev;
+Ev.prototype.chargeBattery = function (chargeTo) {
+    this.charge = chargeTo;
+}
+Ev.prototype.accelerate = function () {
+    this.speed += 20;
+    this.charge -= 1;
+    console.log(`Tesla going at ${this.speed} km/h, with charge of ${this.charge}.`)
+}
+
+
+const car1 = new Ev('Tesla', 120, 23);
+
+car1.accelerate();
+car1.brake();
+car1.chargeBattery(90)
