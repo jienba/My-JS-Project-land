@@ -226,7 +226,7 @@ console.log(`Ndeye is ${ndeye.calcAge()} years old.`);
 */
 ///////////////////////////////////////////////
 // 14. Coding Challenge #2
-
+/*
 class CarCl {
     constructor(make, speed) {
         this.make = make;
@@ -258,9 +258,30 @@ car1.accelerate()
 console.log(car1.speedUS);
 car1.speedUS = 50;
 console.log(car1.speedUS);
+*/
 
+//////////////////////////////////////
+// 15. Inheritance between "classes"
 
+const Person = function (firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+}
 
+Person.prototype.calcAge = function () {
+    console.log(2037 - this.birthYear);
+}
 
+const Student = function (firstName, birthYear, course) {
+    Person.call(this, firstName, birthYear);
+    this.course = course;
+}
+// Linking prototype
+Student.prototype = Object.create(Person.prototype);
 
+Student.prototype.introduce = function () {
+    console.log(`My name is ${this.firstName} and I study ${this.course}`);
+}
 
+const jienba = new Student('Adama', 1997, 'Computer Science and Cryptography.');
+jienba.introduce();
