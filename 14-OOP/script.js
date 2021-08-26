@@ -382,6 +382,7 @@ jienba.calcAge();*/
 
 ///////////////////////////////////////////////
 // 18. Inheritance between "classes" using Object.create()
+/*
 
 const PersonProto = {
     calcAge(){
@@ -410,3 +411,32 @@ penda.init('Penda', 1998, 'Computer Science');
 penda.introduce();
 penda.calcAge();
 
+*/
+/////////////////////////////////////////////////
+// 19. Another class Example
+
+class Account {
+    constructor(owner, currency, pin) {
+        this.owner = owner;
+        this.currency = currency;
+        this.pin = pin;
+        this.movements = [];
+        this.locale = navigator.language;
+
+        console.log(`Thanks for opening account, ${this.owner}`)
+    }
+
+    deposit(val){
+        this.movements.push(val);
+    }
+
+    withdraw(val){
+        this.deposit(-val);
+    }
+}
+
+const acc1 = new Account('Adama', 'FCFA', 1111);
+acc1.deposit(25000);
+acc1.withdraw(10000);
+
+console.log(acc1.movements)
