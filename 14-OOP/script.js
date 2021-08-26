@@ -332,6 +332,7 @@ car1.chargeBattery(90)
 
 ////////////////////////////////////
 // 17. Inheritance between "classes" using ES6 Classes
+/*
 class PersonCl {
     constructor(fullname, birthYear) {
         this.fullname = fullname;
@@ -377,4 +378,35 @@ class StudentCl extends PersonCl{
 
 const jienba = new StudentCl('Adama Dieng BA', 1997, 'Cryptographic');
 jienba.introduce();
-jienba.calcAge();
+jienba.calcAge();*/
+
+///////////////////////////////////////////////
+// 18. Inheritance between "classes" using Object.create()
+
+const PersonProto = {
+    calcAge(){
+        console.log(2021 - this.birthYear);
+    },
+
+    init(firstName, birthYear) {
+        this.firstName = firstName;
+        this.birthYear = birthYear;
+    }
+}
+
+const StudentProto = Object.create(PersonProto);
+
+StudentProto.init = function (firstName, birthYear, course) {
+    PersonProto.init.call(this, firstName, birthYear);
+    this.course = course;
+};
+
+StudentProto.introduce = function () {
+    console.log(`My name is ${this.firstName} and I study ${this.course}.`);
+};
+
+const penda = Object.create(StudentProto);
+penda.init('Penda', 1998, 'Computer Science');
+penda.introduce();
+penda.calcAge();
+
