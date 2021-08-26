@@ -261,7 +261,7 @@ console.log(car1.speedUS);
 */
 
 //////////////////////////////////////
-// 15. Inheritance between "classes"
+// 15. Inheritance between "classes" using function constructor
 
 /*
 const Person = function (firstName, birthYear) {
@@ -289,6 +289,8 @@ jienba.introduce();
 */
 //////////////////////////////////////
 // 16. Coding Challenge #3
+/*
+
 const Car = function (make, speed) {
     this.make = make;
     this.speed = speed;
@@ -326,3 +328,53 @@ const car1 = new Ev('Tesla', 120, 23);
 car1.accelerate();
 car1.brake();
 car1.chargeBattery(90)
+*/
+
+////////////////////////////////////
+// 17. Inheritance between "classes" using ES6 Classes
+class PersonCl {
+    constructor(fullname, birthYear) {
+        this.fullname = fullname;
+        this.birthYear = birthYear;
+    }
+
+    calcAge(){
+        console.log(2021 - this.birthYear);
+    }
+
+    greet() {
+        console.log(`Hey ${this.fullname}`);
+    }
+
+    get age() {
+        return 2021 - this.birthYear
+    }
+
+    set fullname(name){
+        name.includes(' ') ? this._fullname = name : alert(`${name} is not a full name!`);
+    }
+
+    get fullname(){
+        return this._fullname;
+    }
+
+}
+
+class StudentCl extends PersonCl{
+    constructor(fullName, birthYear, course) {
+        super(fullName, birthYear);
+        this.course = course;
+    }
+
+    introduce(){
+        console.log(`My name is ${this.fullname} and I study ${this.course}`);
+    }
+
+    calcAge() {
+        console.log(`I'm ${2021 - this.age} years old, but as student I feel more like ${2021 - this.age + 10 }`)
+    }
+}
+
+const jienba = new StudentCl('Adama Dieng BA', 1997, 'Cryptographic');
+jienba.introduce();
+jienba.calcAge();
