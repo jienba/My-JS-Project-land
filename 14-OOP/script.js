@@ -419,24 +419,43 @@ class Account {
     constructor(owner, currency, pin) {
         this.owner = owner;
         this.currency = currency;
-        this.pin = pin;
-        this.movements = [];
+        this._pin = pin;
+        this._movements = [];
         this.locale = navigator.language;
 
         console.log(`Thanks for opening account, ${this.owner}`)
     }
 
+    // Public interface
+    getMovements(){
+        return this._movements;
+    }
+
     deposit(val){
-        this.movements.push(val);
+        this._movements.push(val);
     }
 
     withdraw(val){
         this.deposit(-val);
     }
+
+    _approveLoan(val){
+        return true
+    }
+
+    requestLoan(val){
+        if (this._approveLoan(val)){
+            this.deposit(val);
+            console.log('Loan approved!');
+        }
+    }
+
+
 }
 
-const acc1 = new Account('Adama', 'FCFA', 1111);
+const acc1 = new Account('Jienba', 'FCFA', 1111);
 acc1.deposit(25000);
 acc1.withdraw(10000);
 
-console.log(acc1.movements)
+
+console.log(acc1._movements)
