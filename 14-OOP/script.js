@@ -416,39 +416,58 @@ penda.calcAge();
 // 19. Another class Example
 
 class Account {
+    // Public fields (instance)
+    locale = navigator.language;
+    // private  fields (instance)
+    #pin;
+    #movements = [];
+
     constructor(owner, currency, pin) {
         this.owner = owner;
         this.currency = currency;
-        this._pin = pin;
-        this._movements = [];
-        this.locale = navigator.language;
+        this.#pin = pin;
 
         console.log(`Thanks for opening account, ${this.owner}`)
     }
 
+    // Public methods
     // Public interface
     getMovements(){
-        return this._movements;
+        return this.#movements;
     }
 
     deposit(val){
-        this._movements.push(val);
+        this.#movements.push(val);
+        return this;
     }
 
     withdraw(val){
         this.deposit(-val);
+        return this;
     }
 
     _approveLoan(val){
-        return true
+        return true;
     }
 
     requestLoan(val){
         if (this._approveLoan(val)){
             this.deposit(val);
             console.log('Loan approved!');
+            return this;
         }
     }
+
+    // Private method
+    /*#approveLoan(val){
+        return true
+    }*/
+    static helper(){
+        console.log('Do you need help?');
+    }
+
+
+
 
 
 }
@@ -456,6 +475,7 @@ class Account {
 const acc1 = new Account('Jienba', 'FCFA', 1111);
 acc1.deposit(25000);
 acc1.withdraw(10000);
+// acc1.#approveLoan(121);
 
-
-console.log(acc1._movements)
+Account.helper();
+console.log(acc1.#movements)
