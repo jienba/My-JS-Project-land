@@ -414,6 +414,7 @@ penda.calcAge();
 */
 /////////////////////////////////////////////////
 // 19. Another class Example
+/*
 
 class Account {
     // Public fields (instance)
@@ -459,9 +460,9 @@ class Account {
     }
 
     // Private method
-    /*#approveLoan(val){
+    /!*#approveLoan(val){
         return true
-    }*/
+    }*!/
     static helper(){
         console.log('Do you need help?');
     }
@@ -479,3 +480,59 @@ acc1.withdraw(10000);
 
 Account.helper();
 console.log(acc1.#movements)
+*/
+// Coding Challenge #4
+
+
+class CarCl {
+    constructor(make, speed) {
+        this.make = make;
+        this.speed = speed;
+    }
+
+    get speedUS(){
+        return (this.speed / 1.6);
+    }
+
+    set speedUS(speed){
+        this.speed = (speed * 1.6);
+    }
+    accelerate () {
+        this.speed += 10;
+        console.log(`${this.make} is going at ${this.speed} km/h.`);
+        return this;
+    };
+
+    brake () {
+        this.speed -= 5;
+        console.log(`${this.make} is going at ${this.speed} km/h.`);
+        return this;
+    };
+
+}
+
+class EVCl extends CarCl{
+    #charge;
+    constructor(make, speed, charge) {
+        super(make,speed);
+        this.#charge = charge;
+    }
+
+    accelerate() {
+        this.speed += 20;
+        this.#charge -= 1;
+        console.log(`Tesla going at ${this.speed} km/h, with charge of ${this.#charge}% .`)
+        return this;
+    }
+
+    chargeBattery(chargeTo) {
+        this.#charge = chargeTo;
+        return this;
+    }
+
+    
+}
+
+const car1 = new EVCl('Rivian', 120, 23);
+
+car1.chargeBattery(24).brake().accelerate();
