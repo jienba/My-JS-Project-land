@@ -4,6 +4,7 @@
 class Workout {
     date = new Date();
     id = (Date.now() + '').slice(-10);
+    clicks = 0;
 
     constructor(coords, distance, duration) {
         // this.date = new Date();
@@ -17,6 +18,10 @@ class Workout {
         // prettier-ignore
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${months[this.date.getMonth()]} ${this.date.getDate()}`;
+    }
+
+    click() {
+        this.clicks ++;
     }
 
 }
@@ -76,12 +81,14 @@ class App {
     #map;
     #mapEvent;
     #workOuts = [];
+    #zoomLevel = 13;
 
     constructor() {
         this._getPosition();
         form.addEventListener('submit', this._newWorkout.bind(this));
         // Toggling workout field
         inputType.addEventListener('change', this._toggleElevationField);
+        containerWorkouts.addEventListener('click', this._moveToPopup.bind(this))
 
     }
 
@@ -100,7 +107,7 @@ class App {
         const {latitude} = position.coords;
         const {longitude} = position.coords;
         const coords = [latitude, longitude];
-        this.#map = L.map('map').setView(coords, 13);
+        this.#map = L.map('map').setView(coords, this.#zoomLevel);
 
         L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -236,6 +243,31 @@ class App {
             </li>
             `;
         form.insertAdjacentHTML('afterend', html);
+    }
+
+    _moveToPopup(e){
+        const workOutEl = e.target.closest('.workout');
+        console.log(workOutEl);
+
+        if (!workOutEl) return;
+
+        const workout = this.#workOuts.find(
+            work => work.id === workOutEl.dataset.id
+        );
+        console.log(workout);
+
+        this.#map.setView(workout.coords, this.#zoomLevel, {
+            animate: 1,
+            pan: {
+                duration: 1,
+            }
+            }
+         );
+
+        // Using public interface
+        workout.click();
+
+
     }
 }
 
