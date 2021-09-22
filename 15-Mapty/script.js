@@ -160,7 +160,6 @@ class App {
         const {lat, lng} = this.#mapEvent.latlng;
         let workOut;
 
-
         // If activity is running, create running object
         if (type === 'running') {
             const cadence = +inputCadence.value;
