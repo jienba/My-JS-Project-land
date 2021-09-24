@@ -5,6 +5,9 @@ const countriesContainer = document.querySelector('.countries');
 
 ///////////////////////////////////////
 
+
+// #6. Welcome to the callback hell
+/*
 const renderCountry = function (data, className= '') {
     const html = `
          <article class="country ${className}">
@@ -45,9 +48,9 @@ const getCountryAndNeighbour = (countryCode) => {
         request2.open('GET', `https://restcountries.com/v2/alpha/${neighbour}`);
         request2.send();
         request2.addEventListener('load', function () {
-           /* const {responseText} = this;
+           /!* const {responseText} = this;
             const data2 = JSON.parse(responseText);
-            console.log(responseText)*/
+            console.log(responseText)*!/
             const data2 = JSON.parse(this.responseText);
             console.log(data2);
             renderCountry(data2, 'neighbour');
@@ -57,3 +60,14 @@ const getCountryAndNeighbour = (countryCode) => {
 
 
 getCountryAndNeighbour('usa');
+
+*/
+/////////////////////////////////////////////
+// #7. Promises and the fetch API
+
+/*const request = new XMLHttpRequest();
+request.open('GET', `https://restcountries.com/v2/alpha/${countryCode}`);
+request.send();*/
+const req = fetch('https://restcountries.com/v2/alpha/sn');
+console.log(req)
+
