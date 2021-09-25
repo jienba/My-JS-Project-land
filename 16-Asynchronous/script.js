@@ -152,6 +152,7 @@ const getCountryData = (countryCode) => {
         .finally(() => countriesContainer.style.opacity = 1)
 };
 
+
 btn.addEventListener('click', function () {
     getCountryData('sn');
 })
