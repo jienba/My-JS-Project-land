@@ -3,6 +3,28 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
+const renderCountry = function (data, className = '') {
+    const html = `
+         <article class="country ${className}">
+          <img class="country__img" src="${data.flags[0]}" />
+          <div class="country__data">
+            <h3 class="country__name">${data.name}</h3>
+            <h4 class="country__region">${data.continent}</h4>
+            <p class="country__row"><span>👫</span>${(data.population / 1000000).toFixed(1)} Millions</p>
+            <p class="country__row"><span>🗣️</span>${data.languages[0]['nativeName']}</p>
+            <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+          </div>
+        </article>
+    `;
+    countriesContainer.insertAdjacentHTML('beforeend', html);
+    // countriesContainer.style.opacity = 1;
+};
+
+const renderError = function (msgErr) {
+    countriesContainer.insertAdjacentText('beforeend', msgErr)
+    // countriesContainer.style.opacity = 1;
+}
+
 ///////////////////////////////////////
 
 
@@ -74,6 +96,7 @@ console.log(req)*/
 
 //////////////////////////////////////////////////////////
 // #8. Consuming promises
+/*
 const renderCountry = function (data, className= '') {
     const html = `
          <article class="country ${className}">
@@ -104,5 +127,33 @@ const getCountryData = (countryCode) => {
         .then(data => renderCountry(data, 'neighbour'))
 }
 
-getCountryData('sn');
+btn.addEventListener('click', function () {
+    getCountryData('sn');
+})
+*/
+////////////////////////////////////////////////
+// #10. Handling rejected promise
+
+const getCountryData = (countryCode) => {
+    fetch(`https://restcountries.com/v2/alpha/${countryCode}`)
+        .then(response => response.json())
+        .then(data => {
+            renderCountry(data);
+            const [neighbour] = data.borders;
+            if (!neighbour) return;
+            return fetch(`https://restcountries.com/v2/alpha/${neighbour}`)
+        })
+        .then(response => response.json())
+        .then(data => renderCountry(data, 'neighbour'))
+        .catch(err => {
+            console.log(`${err} 💥💥💥`);
+            renderError(`Something went wrong 💥💥💥 ${err.message}. Try again! `);
+        })
+        .finally(() => countriesContainer.style.opacity = 1)
+};
+
+btn.addEventListener('click', function () {
+    getCountryData('sn');
+})
+
 
