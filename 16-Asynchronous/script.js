@@ -2,6 +2,7 @@
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
+const container = document.querySelector('.container');
 
 const renderCountry = function (data, className = '') {
     const html = `
@@ -163,15 +164,16 @@ btn.addEventListener('click', function () {
 ////////////////////////////////////////////
 // 11. Throwing Errors Manually
 
-const getJSON = function (url, errMsg = 'Cannot found country '){
+
+/*const getJSON = function (url, errMsg = 'Cannot found country '){
     return fetch(url)
         .then(response => {
             if (!response.ok)
                 throw new Error(`${errMsg} ${response.status}`)
             return response.json();
         })
-};
-
+};*/
+/*
 const getCountryData = (countryCode) => {
     getJSON(`https://restcountries.com/v2/alpha/${countryCode}`)
         .then(data => {
@@ -205,6 +207,7 @@ const getCountryData = (countryCode) => {
 btn.addEventListener('click', function () {
     getCountryData('aus');
 })
+*/
 
 // Test
 /*
@@ -227,3 +230,72 @@ fetch('https://restcountries.com/v2/alpha/sn')
     })
     .finally(() => countriesContainer.style.opacity = 1)
 */
+//////////////////////////////////////////////////////
+// 12. Coding challenge #1
+const renderCountryByName = function (data, className= '') {
+    const html = `
+         <article class="country ${className}">
+          <img class="country__img" src="${data.flags[0]}" />
+          <div class="country__data">
+            <h3 class="country__name">${data.name}</h3>
+            <h4 class="country__region">${data.continent}</h4>
+            <p class="country__row"><span>👫</span>${(data.population / 1000000).toFixed(1)} Millions</p>
+            <p class="country__row"><span>🗣️</span>${data.languages[0]['nativeName']}</p>
+            <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+          </div>
+        </article>
+    `;
+    countriesContainer.insertAdjacentHTML('beforeend', html);
+    countriesContainer.style.opacity = 1;
+}
+const getJSON = function (url, errMsg = 'Cannot found country '){
+    return fetch(url)
+        .then(response => {
+            if (!response.ok)
+                throw new Error(`${errMsg} ${response.status}`)
+            return response.json();
+        })
+};
+let coords = [];
+
+const whereAmI = function (lat, lng) {
+    getJSON(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+        .then(data => {
+            console.log(data);
+            console.log(`You are in ${data.city}, ${data.country}`);
+
+            container.insertAdjacentHTML('afterbegin',`<p style="font-size: 2rem; margin-bottom: 15px;">You are in ${data.city}, ${data.country}</p>`);
+            return getJSON(`https://restcountries.com/v2/name/${data.country}`)
+        })
+        .then(data => {
+            console.log(data[0]);
+            renderCountry(data[0]);
+        })
+        .catch(err => {
+            console.log(`${err} 💥💥💥`);
+            renderError(`Something went wrong 💥💥💥 ${err.message}. Try again! `);
+        })
+        .finally(() => countriesContainer.style.opacity = 1)
+}
+
+
+const getPosition = function (){
+    navigator.geolocation.getCurrentPosition(
+        position => {
+            // console.log(position);
+            const {latitude} = position.coords;
+            const {longitude} = position.coords;
+            coords.push(latitude)
+            coords.push(longitude)
+            console.log(coords)
+        },
+        () =>{
+            alert('Cannot get the current position');
+        }
+    )
+}
+getPosition();
+// whereAmI(52.508, 13.381);
+// whereAmI(19.037, 72.873);
+whereAmI(-33.933, 18.474);
+
