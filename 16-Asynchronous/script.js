@@ -303,7 +303,7 @@ whereAmI(-33.933, 18.474);
 
 /////////////////////////////////////////////
 // 14. The event loop in practice
-
+/*
 console.log('Test start');
 setTimeout(()=>console.log('0 sec timer'),0 );
 Promise.resolve('Resolved promise 1').then(res => console.log(res));
@@ -311,26 +311,71 @@ Promise.resolve('Resolved promise 2').then(res =>{
     setTimeout(()=> console.log(res), 2500)
 })
 console.log('Test end');
+*/
+
+/////////////////////////////////////////////
+// 14. Building a simple promise
+const lotteryPromise = new Promise(function (resolve, reject) {
+    console.log('Lottery draw is happening 🔮...');
+    setTimeout(() =>{
+        if (Math.random() > 0.5) {
+            resolve('You win 🤑!');
+        } else {
+            reject(new Error('You lost your money 💩!'));
+        }
+    },2500)
+});
 
 
+// lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
 
+// Promisifying setTimeout
 
+/*
+setTimeout(()=>{
+    console.log('1 second passed');
+    setTimeout(()=> {
+        console.log('2 seconds passed');
+        setTimeout(()=>{
+            console.log('3 seconds passed');
+            setTimeout(()=>{
+                console.log('4 seconds passed')
+            }, 1000)
+        }, 100)
+    },1000)
+    }, 1000
+);
+*/
+// Promisifiying setTimeOut
+const wait = (seconds) => {
+  return new Promise(function (resolve) {
+      setTimeout(resolve, seconds * 1000);
+  })
+}
 
+wait(1)
+    .then(() => {
+        console.log('1 second passed')
+        return wait(1);
+    })
+    .then(() => {
+        console.log('2 second passed')
+        return wait(1);
+    })
+    .then(() => {
+        console.log('3 second passed')
+        return wait(1);
+    })
+    .then(() => {
+        console.log('4 second passed')
+        return wait(1);
+    })
+    .then(() => {
+        console.log('5 second passed')
+        return wait(1);
+    })
 
+// Resolve or rejected immediately a promise
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Promise.resolve('ready').then(x => console.log(x));
+Promise.reject('not ready').catch(err => console.log(err));
