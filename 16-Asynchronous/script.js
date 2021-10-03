@@ -483,10 +483,15 @@ createImage("img/img-1.jpg")
         return createImage("img/img-2.jpg")
     })
     .then(()=>{
-        console.log('Waited for 2 seconds');
-        image.style.display = 'none';
-        return createImage("img/img-3.jpg")
+        console.log('image 2 loaded successfully');
+        return wait(2)
     })
+    .then(() =>{
+    console.log('Waited for 2 seconds');
+    image.style.display = 'none';
+    return createImage("img/img-3.jpg")
+    })
+    .then(() => console.log('image 2 loaded successfully'))
     .catch(err => {
         renderErrorMsg(`Something went wrong 💥💥💥 ${err.message}. Try again! `)
     })
