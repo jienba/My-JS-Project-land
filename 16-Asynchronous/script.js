@@ -491,7 +491,7 @@ createImage("img/img-1.jpg")
     image.style.display = 'none';
     return createImage("img/img-3.jpg")
     })
-    .then(() => console.log('image 2 loaded successfully'))
+    .then(() => console.log('image 3 loaded successfully'))
     .catch(err => {
         renderErrorMsg(`Something went wrong 💥💥💥 ${err.message}. Try again! `)
     })
