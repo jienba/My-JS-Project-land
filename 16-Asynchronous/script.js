@@ -368,6 +368,7 @@ Promise.reject('not ready').catch(err => console.log(err));
 
 ////////////////////////////////////////////////////////
 // 16. Promisifying the geolocation API
+/*
 console.log('Getting position');
 const getJSON = function (url, errMsg = 'Cannot found country '){
     return fetch(url)
@@ -387,7 +388,7 @@ const getPosition = () => {
         navigator.geolocation.getCurrentPosition(resolve,reject)
     })
 }
-const whereAmI = function (lat, lng) {
+const whereAmI = function () {
     getPosition()
         .then(
             position =>{
@@ -408,10 +409,6 @@ const whereAmI = function (lat, lng) {
             renderCountry(data);
             console.log('tesst');
             console.log(data[0].region);
-
-
-
-
         })
         .catch(err => {
             console.log(`${err} 💥💥💥`);
@@ -440,6 +437,62 @@ const renderCountry = function (data, className = '') {
 
 btn.addEventListener('click', whereAmI)
 
-/*whereAmI(52.508, 13.381);
+/!*whereAmI(52.508, 13.381);
 whereAmI(19.037, 72.873);
-whereAmI(-33.933, 18.474);*/
+whereAmI(-33.933, 18.474);*!/
+*/
+
+/////////////////////////////////////////////
+// 17. Coding Challenge #2
+let image;
+const imgContainer = document.querySelector('.images');
+
+const renderErrorMsg = function (msgErr) {
+    imgContainer.insertAdjacentHTML('beforeend', `<p style="font-size: 4rem">${msgErr}</p>`);
+};
+
+const wait = (seconds) => {
+    return new Promise(function (resolve) {
+        setTimeout(resolve, seconds * 1000);
+    })
+}
+const createImage = (imgPath) => {
+  return new Promise(function (resolve, reject) {
+      image = document.createElement('img')
+      image.setAttribute('src', imgPath)
+      // image.src = imgPath
+      image.addEventListener('load', ()=>{
+          imgContainer.append(image);
+          resolve(image)
+      })
+
+      image.addEventListener('error', () => {
+          reject(new Error('No image found 🙁🙁🙁'));
+      })
+  })
+}
+
+createImage("img/img-1.jpg")
+    .then(() => {
+        console.log('image 1 loaded successfully');
+        return wait(2);
+    })
+    .then(() =>{
+        console.log('Waited for 2 seconds');
+        image.style.display = 'none';
+        return createImage("img/img-2.jpg")
+    })
+    .then(()=>{
+        console.log('Waited for 2 seconds');
+        image.style.display = 'none';
+        return createImage("img/img-3.jpg")
+    })
+    .catch(err => {
+        renderErrorMsg(`Something went wrong 💥💥💥 ${err.message}. Try again! `)
+    })
+
+
+
+
+
+
