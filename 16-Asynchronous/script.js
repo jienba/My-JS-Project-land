@@ -416,7 +416,7 @@ const whereAmI = function () {
         })
         .finally(() => countriesContainer.style.opacity = 1)
 }
-
+*/
 // API Rescountries V3
 const renderCountry = function (data, className = '') {
     const html = `
@@ -432,9 +432,9 @@ const renderCountry = function (data, className = '') {
         </article>
     `;
     countriesContainer.insertAdjacentHTML('beforeend', html);
-    // countriesContainer.style.opacity = 1;
+    countriesContainer.style.opacity = 1;
 };
-
+/*
 btn.addEventListener('click', whereAmI)
 
 /!*whereAmI(52.508, 13.381);
@@ -444,6 +444,7 @@ whereAmI(-33.933, 18.474);*!/
 
 /////////////////////////////////////////////
 // 17. Coding Challenge #2
+/*
 let image;
 const imgContainer = document.querySelector('.images');
 
@@ -495,8 +496,64 @@ createImage("img/img-1.jpg")
     .catch(err => {
         renderErrorMsg(`Something went wrong 💥💥💥 ${err.message}. Try again! `)
     })
+*/
+
+//////////////////////////////////////////////////////
+// 18. Consuming Promises with AsyncAwait
+
+const getPosition = () => {
+    return new Promise(function (resolve, reject) {
+        navigator.geolocation.getCurrentPosition(resolve,reject)
+    })
+}
+// Await getJSON
+const getJSON = async function (url, errMsg = 'Failed to fetching data') {
+    return await fetch(url)
+        .then(response => {
+            if (!response.ok)
+                throw new Error(`${errMsg} ${response.status}`)
+            return response.json();
+        })
+}
+
+const whereAmI = async () => {
+    // Geolocation
+    const position = await getPosition();
+    const {latitude: lat, longitude: lng} = position.coords;
+
+    // Reverse geocoding
+    const responseGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    const dataGeo = await responseGeo.json();
+    console.log('Response geocode',responseGeo);
+    console.log('Data geocode',dataGeo);
+    console.log(dataGeo.country);
 
 
+
+
+    // Country data
+    const resCountry = await fetch(`https://restcountries.com/v3/name/${dataGeo.country}`)
+    const data = await resCountry.json();
+    console.log(resCountry);
+    console.log('data country ',data);
+    console.log(data[0].flags);
+    renderCountry(data);
+}
+/*
+
+<img className="country__img" src="${data[0].flags[0]}"/>
+<div className="country__data">
+    <h3 className="country__name">${data[0].name.nativeName['fra'].common}</h3>
+    <h4 className="country__region">${data[0].region}</h4>
+    <p className="country__row"><span>👫</span>${(data[0].population / 1000000).toFixed(1)} Millions</p>
+    <p className="country__row"><span>🗣️</span>${data[0].languages[Object.keys(data[0].languages)[0]]}</p>
+    <p className="country__row"><span>💰</span>${data[0].currencies[Object.keys(data[0].currencies)[0]].name}</p>
+</div>
+*/
+
+
+whereAmI();
+console.log('First');
 
 
 
