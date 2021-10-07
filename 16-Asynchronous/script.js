@@ -445,12 +445,13 @@ whereAmI(-33.933, 18.474);*!/
 /////////////////////////////////////////////
 // 17. Coding Challenge #2
 /*
+
 let image;
 const imgContainer = document.querySelector('.images');
 
-const renderErrorMsg = function (msgErr) {
+/!*const renderErrorMsg = function (msgErr) {
     imgContainer.insertAdjacentHTML('beforeend', `<p style="font-size: 4rem">${msgErr}</p>`);
-};
+};*!/
 
 const wait = (seconds) => {
     return new Promise(function (resolve) {
@@ -496,6 +497,7 @@ createImage("img/img-1.jpg")
     .catch(err => {
         renderErrorMsg(`Something went wrong 💥💥💥 ${err.message}. Try again! `)
     })
+
 */
 
 //////////////////////////////////////////////////////
@@ -506,15 +508,7 @@ const getPosition = () => {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
-// Await getJSON
-const getJSON = async function (url, errMsg = 'Failed to fetching data') {
-    return await fetch(url)
-        .then(response => {
-            if (!response.ok)
-                throw new Error(`${errMsg} ${response.status}`)
-            return response.json();
-        })
-}
+
 
 const renderErrorMsg = function (msgErr) {
     container.insertAdjacentHTML('beforeend', `<p style="font-size: 2rem; margin-top: 50px; ">${msgErr}</p>`);
@@ -608,6 +602,7 @@ whereAmI()
 
 //////////////////////////////////////////
 // 20.Returning Values from Async Functions
+/*
 
 const whereAmI = async () => {
     try {
@@ -638,15 +633,15 @@ const whereAmI = async () => {
 
 }
 
-/*const city = whereAmI();
-console.log(city);*/
+/!*const city = whereAmI();
+console.log(city);*!/
 console.log('1: Will get location ');
-/*
+/!*
 whereAmI()
     .then(city => console.log(`2: ${city}`))
     .catch(reason => console.error(`2: ${reason}`))
     .finally(() => console.log('3: Finished getting location'));
-*/
+*!/
 
 (async function () {
     try {
@@ -657,4 +652,34 @@ whereAmI()
     }
     console.log('3: Finished getting location');
 })();
+*/
+//////////////////////////////////////////////////
+// 22. Running Promises in Parallel
 
+const getJSON = function (url, errMsg = 'Cannot found country '){
+    return fetch(url)
+        .then(response => {
+            if (!response.ok)
+                throw new Error(`${errMsg} ${response.status}`)
+            return response.json();
+        })
+}
+const get3Countries = async (country1, country2, country3) => {
+    try {
+        /*const [data1] = await getJSON(`https://restcountries.com/v2/name/${country1}`);
+        const [data2] = await getJSON(`https://restcountries.com/v2/name/${country2}`);
+        const [data3] = await getJSON(`https://restcountries.com/v2/name/${country3}`);*/
+        // console.log([data1, data2]);
+        const data = await Promise.all([
+            getJSON(`https://restcountries.com/v2/name/${country1}`),
+            getJSON(`https://restcountries.com/v2/name/${country2}`),
+            getJSON(`https://restcountries.com/v2/name/${country3}`)
+        ]);
+        // console.log([data1.capital,data2.capital, data3.capital]);
+        console.log(data.map(d => d[0].capital));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+get3Countries('senegal', 'egypt', 'germany');
