@@ -656,6 +656,7 @@ whereAmI()
 //////////////////////////////////////////////////
 // 22. Running Promises in Parallel
 
+/*
 const getJSON = function (url, errMsg = 'Cannot found country '){
     return fetch(url)
         .then(response => {
@@ -666,9 +667,9 @@ const getJSON = function (url, errMsg = 'Cannot found country '){
 }
 const get3Countries = async (country1, country2, country3) => {
     try {
-        /*const [data1] = await getJSON(`https://restcountries.com/v2/name/${country1}`);
+        /!*const [data1] = await getJSON(`https://restcountries.com/v2/name/${country1}`);
         const [data2] = await getJSON(`https://restcountries.com/v2/name/${country2}`);
-        const [data3] = await getJSON(`https://restcountries.com/v2/name/${country3}`);*/
+        const [data3] = await getJSON(`https://restcountries.com/v2/name/${country3}`);*!/
         // console.log([data1, data2]);
         const data = await Promise.all([
             getJSON(`https://restcountries.com/v2/name/${country1}`),
@@ -683,3 +684,56 @@ const get3Countries = async (country1, country2, country3) => {
 }
 
 get3Countries('senegal', 'egypt', 'germany');
+*/
+///////////////////////////////////////////////////
+// 22. Other Promise Combinators race, allSettled and any
+
+// Promise.race()
+const getJSON = function (url, errMsg = 'Cannot found country '){
+    return fetch(url)
+        .then(response => {
+            if (!response.ok)
+                throw new Error(`${errMsg} ${response.status}`)
+            return response.json();
+        })
+};
+
+(async function () {
+    const res = await Promise.race([
+        getJSON('https://restcountries.com/v2/name/senegal'),
+        getJSON('https://restcountries.com/v2/name/egypt'),
+        getJSON('https://restcountries.com/v2/name/rwanda')
+    ]);
+    console.log(res[0]);
+})();
+
+const timeout = function (sec) {
+    return new Promise(function (_, reject) {
+        setTimeout(() => reject(new Error('Request took too long')), sec * 1000);
+    })
+}
+
+Promise.race([
+    getJSON('https://restcountries.com/v2/name/tanzania'),
+    timeout(0.15)
+]).then(res => console.log(res)).catch(reason => console.error(reason))
+
+// Promise.allSettled
+
+Promise.allSettled([
+    Promise.resolve('Success'),
+    Promise.reject('Failed'),
+    Promise.resolve('Another Success'),
+])
+    .then(value => console.log(value))
+    .catch(reason => console.error(reason))
+
+// Promise.any
+
+Promise.any([
+    Promise.resolve('Success'),
+    Promise.reject('Failed'),
+    Promise.resolve('Another Success'),
+])
+    .then(value => console.log(value))
+    .catch(reason => console.error(reason))
