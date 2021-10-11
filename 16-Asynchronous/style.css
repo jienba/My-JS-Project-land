@@ -35,7 +35,6 @@ body {
   transition: opacity 1s;
 }
 
-
 .country {
   background-color: #fff;
   box-shadow: 0 2rem 5rem 1rem rgba(0, 0, 0, 0.1);
@@ -107,7 +106,6 @@ body {
   color: white;
   background-color: orangered;
   cursor: pointer;
-  margin-top: 50px;
 }
 
 .images {
